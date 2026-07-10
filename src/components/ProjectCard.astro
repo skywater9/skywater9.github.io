@@ -1,0 +1,33 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  date: Date;
+  tags: string[];
+}
+const { href, title, summary, date, tags } = Astro.props;
+const formatted = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short' }).format(date);
+---
+
+<a
+  href={href}
+  class="group flex flex-col gap-2 border-b border-blueprint-lighter/30 py-6 first:pt-0 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6"
+>
+  <div class="sm:max-w-xl">
+    <h3 class="font-display text-lg font-semibold text-line group-hover:text-brass">{title}</h3>
+    <p class="mt-1 text-sm leading-relaxed text-line-dim">{summary}</p>
+    {tags.length > 0 && (
+      <ul class="mt-3 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <li class="rounded-sm border border-blueprint-lighter/50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-line-dim">
+            {tag}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+  <span class="whitespace-nowrap font-mono text-[11px] uppercase tracking-widest text-line-dim">
+    {formatted}
+  </span>
+</a>

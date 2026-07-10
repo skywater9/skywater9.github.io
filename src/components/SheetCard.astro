@@ -1,0 +1,30 @@
+---
+interface Props {
+  sheet: string;
+  label: string;
+  blurb: string;
+  count: number;
+  href: string;
+}
+const { sheet, label, blurb, count, href } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group relative flex flex-col justify-between border border-blueprint-lighter/40 bg-blueprint/40 p-6 transition-colors hover:border-brass/70 hover:bg-blueprint/60"
+>
+  <div>
+    <div class="flex items-baseline justify-between">
+      <span class="font-mono text-3xl font-medium text-brass/90">{sheet}</span>
+      <span class="font-mono text-[11px] uppercase tracking-widest text-line-dim">
+        {count} {count === 1 ? 'entry' : 'entries'}
+      </span>
+    </div>
+    <h3 class="mt-3 font-display text-xl font-semibold text-line">{label}</h3>
+    <p class="mt-2 text-sm leading-relaxed text-line-dim">{blurb}</p>
+  </div>
+
+  <span class="mt-6 font-mono text-[11px] uppercase tracking-widest text-line-dim group-hover:text-brass">
+    Open sheet →
+  </span>
+</a>

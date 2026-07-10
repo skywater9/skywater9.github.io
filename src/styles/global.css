@@ -1,0 +1,73 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-display: "Space Grotesk", "Arial Narrow", sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  --color-ink: #0b2130;
+  --color-ink-soft: #0e2a3d;
+  --color-blueprint: #163a52;
+  --color-blueprint-light: #2e6f8e;
+  --color-blueprint-lighter: #4a90b3;
+  --color-line: #dceef4;
+  --color-line-dim: #a9c7d3;
+  --color-paper: #f3f1e7;
+  --color-paper-dim: #c9c6b8;
+  --color-brass: #d9a441;
+  --color-brass-dim: #a9803a;
+  --color-hazard: #c8553a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-line);
+  font-family: var(--font-body);
+  background-image:
+    linear-gradient(var(--color-blueprint-light) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-blueprint-light) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-attachment: fixed;
+  background-position: -1px -1px;
+  position: relative;
+}
+
+/* soften the grid so it reads as texture, not a checkerboard */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: var(--color-ink);
+  opacity: 0.86;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#app {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: var(--color-brass);
+  color: var(--color-ink);
+}
+
+/* hairline tick used by dimension dividers */
+.tick {
+  width: 1px;
+  height: 10px;
+  background: var(--color-blueprint-lighter);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

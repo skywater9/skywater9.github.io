@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import TitleBlockHero from '../components/TitleBlockHero.astro';
+import DimensionDivider from '../components/DimensionDivider.astro';
+import SheetCard from '../components/SheetCard.astro';
+import { COLLECTION_ORDER, COLLECTION_META } from '../data/collections';
+
+const counts = await Promise.all(
+  COLLECTION_ORDER.map(async (key) => {
+    const entries = await getCollection(key, ({ data }) => !data.draft);
+    return [key, entries.length] as const;
+  })
+);
+const countMap = Object.fromEntries(counts);
+
+// Placeholder — replace with the real bio once confirmed with the student.
+const bio =
+  "High school senior building engineering projects across research, robotics, and rocketry — from a custom tensile testing rig to remote CAD mentorship for a robotics program in Hatay, Türkiye.";
+
+// Placeholder — Leadership doesn't get its own "sheet", just a line or two here.
+const leadership =
+  "Co-President of Turkish Club, where I founded a Turkish-American Academic Speaker Series connecting students with university researchers in engineering, biology, and AI.";
+
+// Placeholder list — replace with the real, finalized order (chronological or by importance).
+const awards = [
+  'FIRST Robotics Competition Dean\u2019s List Semifinalist (2026)',
+  'FIRST World Championship Qualifier (2025)',
+  'VEX World Championship Qualifier (2024)',
+  'Team First Award, FRC Team 1148 (2026)',
+];
+---
+
+<Layout title="Student Name — Engineering Portfolio" description="Research, FRC robotics, CAD design, rocketry, and STEM outreach work.">
+  <TitleBlockHero
+    name="Student Name"
+    role="High School Senior · Class of 2027 · Future Engineering Student"
+    intro="A record of the engineering work I've done — from independent research to competition robotics, rocketry, and teaching CAD remotely."
+    sheetCount={COLLECTION_ORDER.length}
+  />
+
+  <DimensionDivider label={`Sheet Index — ${COLLECTION_ORDER.length} Sections`} />
+
+  <section class="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-5 py-10 sm:grid-cols-2 lg:grid-cols-3">
+    {COLLECTION_ORDER.map((key) => (
+      <SheetCard
+        sheet={COLLECTION_META[key].sheet}
+        label={COLLECTION_META[key].label}
+        blurb={COLLECTION_META[key].blurb}
+        count={countMap[key] ?? 0}
+        href={`/${key}/`}
+      />
+    ))}
+  </section>
+
+  <DimensionDivider label="About" />
+
+  <section class="mx-auto grid max-w-6xl gap-10 px-5 py-10 md:grid-cols-[1.3fr_1fr]">
+    <div>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-brass">Bio</p>
+      <p class="mt-3 max-w-xl text-line-dim leading-relaxed">{bio}</p>
+
+      <p class="mt-8 font-mono text-[11px] uppercase tracking-widest text-brass">Leadership</p>
+      <p class="mt-3 max-w-xl text-line-dim leading-relaxed">{leadership}</p>
+    </div>
+
+    <div>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-brass">Honors &amp; Awards</p>
+      <ul class="mt-3 space-y-2">
+        {awards.map((award) => (
+          <li class="flex gap-3 border-b border-blueprint-lighter/25 pb-2 text-sm text-line-dim">
+            <span class="text-brass">—</span>
+            <span>{award}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

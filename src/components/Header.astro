@@ -1,0 +1,47 @@
+---
+import { COLLECTION_ORDER, COLLECTION_META } from '../data/collections';
+
+const path = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-20 border-b border-blueprint-light/40 bg-ink/90 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+    <a href="/" class="font-display text-sm font-semibold tracking-wide text-line hover:text-brass">
+      STUDENT NAME <span class="text-line-dim">/ Portfolio</span>
+    </a>
+
+    <nav class="hidden items-center gap-5 font-mono text-[11px] uppercase tracking-wider text-line-dim md:flex">
+      {COLLECTION_ORDER.map((key) => (
+        <a
+          href={`/${key}/`}
+          class={`transition-colors hover:text-brass ${path.startsWith(`/${key}`) ? 'text-brass' : ''}`}
+        >
+          {COLLECTION_META[key].sheet}·{COLLECTION_META[key].label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <span class="hidden rounded-sm border border-blueprint-lighter/60 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-line-dim sm:inline-block">
+        Rev. {new Date().toISOString().slice(0, 7)}
+      </span>
+
+      <!-- Mobil menü: native <details>, JS gerektirmez -->
+      <details class="relative md:hidden">
+        <summary class="list-none rounded-sm border border-blueprint-lighter/60 px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-line-dim [&::-webkit-details-marker]:hidden">
+          Menü
+        </summary>
+        <nav class="absolute right-0 top-[calc(100%+8px)] flex w-56 flex-col gap-1 border border-blueprint-lighter/50 bg-ink-soft p-3 font-mono text-[11px] uppercase tracking-wider text-line-dim shadow-lg">
+          {COLLECTION_ORDER.map((key) => (
+            <a
+              href={`/${key}/`}
+              class={`rounded-sm px-2 py-1.5 transition-colors hover:bg-blueprint hover:text-brass ${path.startsWith(`/${key}`) ? 'text-brass' : ''}`}
+            >
+              {COLLECTION_META[key].sheet}·{COLLECTION_META[key].label}
+            </a>
+          ))}
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

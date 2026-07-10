@@ -1,0 +1,14 @@
+---
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<div class="mx-auto flex max-w-6xl items-center gap-3 px-5 py-2 text-line-dim" aria-hidden="true">
+  <span class="tick"></span>
+  <div class="h-px flex-1 bg-blueprint-lighter/60"></div>
+  <span class="font-mono text-[11px] uppercase tracking-[0.2em]">{label}</span>
+  <div class="h-px flex-1 bg-blueprint-lighter/60"></div>
+  <span class="tick"></span>
+</div>
