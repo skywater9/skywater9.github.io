@@ -72,4 +72,4 @@ Tarayıcıda `http://localhost:4321` açılır.
 `src/data/collections.ts` dosyasındaki etiket, açıklama ve sıralamayı düzenle.
 Yeni bir kategori (7. bir "sheet") eklemek istersen hem bu dosyaya hem de
 `src/content.config.ts` içine yeni koleksiyonu eklemen ve
-`src/content/` altında aynı isimde bir klasör açman yeterli.
+`src/content/` altında aynı isimde bir klasör açman yeterli.  
