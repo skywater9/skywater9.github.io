@@ -1,11 +1,11 @@
 <div align="center">
 
-# Hi, I'm Demir [Soyad] 👋
+# Hi, I'm Demir Göksu 👋
 
 **High School Senior · Harvard-Westlake School · Class of 2027**
 Building things across research, robotics, and rocketry.
 
-[🌐 Portfolio](https://skywater9.github.io) · [✉️ Email](mailto:your@email.com) · [💼 LinkedIn](https://linkedin.com/in/yourprofile)
+[🌐 Portfolio](https://skywater9.github.io) · [✉️ Email](mailto:demirgks09@gmail.com) · [💼 LinkedIn]((https://www.linkedin.com/in/demir-g-02655b381/))
 
 </div>
 
