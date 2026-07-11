@@ -21,8 +21,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install, build, and upload your site
+ - name: Install, build, and upload your site
         uses: withastro/action@v3
+        with:
+          node-version: 22
 
   deploy:
     needs: build
