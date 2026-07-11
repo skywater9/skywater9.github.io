@@ -1,75 +1,41 @@
-# Mühendislik Portföyü — Kullanım Kılavuzu
+<div align="center">
 
-## İlk kurulum (tek seferlik, danışman tarafından yapılır)
+# Hi, I'm Demir [Soyad] 👋
 
-1. Bu klasörü `kullaniciadi.github.io` adında yeni bir GitHub reposuna push et.
-2. Repo → **Settings → Pages** → "Build and deployment" → Source: **GitHub Actions** seç.
-3. `astro.config.mjs` içindeki `site:` alanını gerçek adresle güncelle.
-4. `main` dalına ilk push'tan sonra **Actions** sekmesinde workflow'un yeşile döndüğünü
-   kontrol et — site birkaç dakika içinde `https://kullaniciadi.github.io` adresinde yayında olur.
+**High School Senior · Harvard-Westlake School · Class of 2027**
+Building things across research, robotics, and rocketry.
 
-Bundan sonrası öğrencinin kendi başına yapabileceği kısım 👇
+[🌐 Portfolio](https://skywater9.github.io) · [✉️ Email](mailto:your@email.com) · [💼 LinkedIn](https://linkedin.com/in/yourprofile)
 
-Bu site [Astro](https://astro.build) ile yapıldı ve GitHub Pages'te barındırılıyor.
-**Aylık hiçbir ücret yok.** `main` dalına her `git push` yaptığında site birkaç dakika
-içinde otomatik olarak güncelleniyor — elle bir "yayınlama" adımı yok.
+</div>
 
-## Yeni bir proje nasıl eklenir?
+---
 
-1. `src/content/` altında ilgili klasörü bul (örn. `frc-design`).
-2. O klasöre yeni bir `.md` dosyası ekle (dosya adı Türkçe karakter/boşluk içermesin,
-   örn. `2026-yeni-mekanizma.md`).
-3. Dosyanın en üstüne, `ornek-*.md` dosyalarındaki gibi bir "frontmatter" bloğu yaz:
+### Quick Links
+[About](#about) · [Featured Projects](#featured-projects) · [Skills](#skills) · [Contact](#contact)
 
-   ```md
-   ---
-   title: "Proje Başlığı"
-   summary: "Tek cümlelik kısa özet."
-   date: 2026-03-01
-   tags: ["FRC", "CAD"]
-   problem: "Neyi çözmeye çalıştın?"
-   approach: "Nasıl çözdün, hangi araçları kullandın?"
-   result: "Ölçülebilir sonuç neydi?"
-   lesson: "Ne öğrendin / bir dahaki sefere ne değiştirirdin?"
-   github: "https://github.com/kullaniciadi/frc-design"   # opsiyonel
-   cad: "https://cad.onshape.com/..."                       # opsiyonel
-   demo: "https://..."                                      # opsiyonel
-   draft: false
-   ---
+---
 
-   Buraya proje hakkında istediğin kadar uzun, serbest metin/görsel ekleyebilirsin.
-   ```
+## About
 
-4. Örnek (`ornek-*.md`) dosyalarını silmek istersen silebilirsin — onlar sadece
-   sitenin boş görünmemesi için konuldu.
-5. Değişikliği kaydet:
-   ```bash
-   git add .
-   git commit -m "Yeni proje eklendi: Proje Başlığı"
-   git push
-   ```
-6. GitHub reponun **Actions** sekmesinden build'in bittiğini görebilirsin (~1-2 dakika).
-   Bittiğinde site otomatik güncellenmiş olur.
+I'm an engineering-focused high school senior working on independent research (topology
+optimization), FRC robotics (CAD/design leadership), rocketry, and remote STEM mentorship for
+a robotics program in Hatay, Türkiye. Full write-ups of each project live on my
+[portfolio site](https://skywater9.github.io).
 
-## Görsel eklemek
+## Featured Projects
 
-Görselleri `public/images/` klasörüne koy, sonra frontmatter'da
-`cover: "/images/dosya-adi.jpg"` şeklinde referans ver.
+| Project | Description |
+|---|---|
+| 🔧 [**PyTopo3D**](https://github.com/skywater9/PyTopo3D) | 3D SIMP topology optimization framework, modified for anisotropic materials — independent research project |
+| 🌐 [**Portfolio Site**](https://github.com/skywater9/skywater9.github.io) | This profile's companion site — Research, FRC Robotics, CAD, Rocketry, STEM Outreach |
 
-## Yerelde önizleme (opsiyonel)
+## Skills
 
-Değişikliği push etmeden önce bilgisayarında görmek istersen:
+**Programming:** ![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white) ![Java](https://img.shields.io/badge/-Java-007396?style=flat&logo=java&logoColor=white)
 
-```bash
-npm install
-npm run dev
-```
+**CAD & Engineering:** ![Onshape](https://img.shields.io/badge/-Onshape-1D9BF0?style=flat) ![Fusion360](https://img.shields.io/badge/-Fusion%20360-F6821F?style=flat) ![OpenRocket](https://img.shields.io/badge/-OpenRocket-333333?style=flat) ![KiCad](https://img.shields.io/badge/-KiCad-314CB0?style=flat)
 
-Tarayıcıda `http://localhost:4321` açılır.
+## Contact
 
-## Kategori isimlerini/sırasını değiştirmek
-
-`src/data/collections.ts` dosyasındaki etiket, açıklama ve sıralamayı düzenle.
-Yeni bir kategori (7. bir "sheet") eklemek istersen hem bu dosyaya hem de
-`src/content.config.ts` içine yeni koleksiyonu eklemen ve
-`src/content/` altında aynı isimde bir klasör açman yeterli.  
+📫 Reach me at **your@email.com** or on [LinkedIn](https://linkedin.com/in/yourprofile).
