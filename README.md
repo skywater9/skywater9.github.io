@@ -38,4 +38,4 @@ a robotics program in Hatay, Türkiye. Full write-ups of each project live on my
 
 ## Contact
 
-📫 Reach me at **your@email.com** or on [LinkedIn](https://linkedin.com/in/yourprofile).
+📫 Reach me at **demirgks09@gmail.com** or on [LinkedIn](https://www.linkedin.com/in/demir-g-02655b381/).
