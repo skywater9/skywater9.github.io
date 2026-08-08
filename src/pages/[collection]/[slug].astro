@@ -1,7 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import DimensionDivider from '../../components/DimensionDivider.astro';
 import Callout from '../../components/Callout.astro';
 import { COLLECTION_ORDER, COLLECTION_META, type CollectionKey } from '../../data/collections';
 
@@ -27,107 +26,86 @@ const links = [
 ].filter((l) => l.href);
 ---
 
-<Layout title={`${entry.data.title} — ${meta.label}`} description={entry.data.summary}>
-  <section class="mx-auto max-w-3xl px-5 pb-4 pt-14">
-    <a href={`/${collection}/`} class="font-mono text-[11px] uppercase tracking-widest text-line-dim hover:text-brass">
-      ← Sheet {meta.sheet} · {meta.label}
+<Layout title={`${entry.data.title} — ${meta.label}`} description={entry.data.summary} statusPath={`${meta.label} / ${entry.data.title}`}>
+  <div class="p-6 md:p-8">
+    <a href={`/${collection}/`} class="font-mono text-[11px] text-ink-dim hover:text-accent-dim">
+      ← Back to {meta.label}
     </a>
 
-    <h1 class="mt-4 font-display text-3xl font-semibold text-line md:text-4xl">{entry.data.title}</h1>
-    <p class="mt-3 text-line-dim">{entry.data.summary}</p>
-    {entry.data.credit && (
-      <p class="mt-1 font-mono text-[11px] uppercase tracking-widest text-line-dim">{entry.data.credit}</p>
-    )}
+    <p class="mt-3 font-mono text-[10.5px] uppercase tracking-wide text-accent-dim">{meta.label}</p>
+    <h1 class="mt-1 text-2xl font-bold md:text-[26px]">{entry.data.title}</h1>
+    <p class="mt-2.5 max-w-[600px] text-[13.5px] leading-relaxed text-ink-dim">{entry.data.summary}</p>
+    {entry.data.credit && <p class="mt-1 font-mono text-[11px] text-ink-dim">{entry.data.credit}</p>}
 
     {entry.data.tags.length > 0 && (
-      <ul class="mt-4 flex flex-wrap gap-2">
+      <div class="mt-2.5">
         {entry.data.tags.map((tag: string) => (
-          <li class="rounded-sm border border-blueprint-lighter/50 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-line-dim">
-            {tag}
-          </li>
+          <span class="mr-1.5 inline-block rounded border border-border px-1.5 py-0.5 text-[10.5px] text-ink-dim">{tag}</span>
         ))}
-      </ul>
+      </div>
     )}
 
     {links.length > 0 && (
-      <div class="mt-5 flex flex-wrap gap-3">
+      <div class="mt-4 flex flex-wrap gap-2.5">
         {links.map((l) => (
           <a
             href={l.href}
             target="_blank"
             rel="noopener noreferrer"
-            class="border border-brass/60 px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-brass hover:bg-brass hover:text-ink"
+            class="rounded border border-accent px-3 py-1.5 font-mono text-[11px] text-accent-dim hover:bg-accent hover:text-white"
           >
             {l.label} ↗
           </a>
         ))}
       </div>
     )}
-  </section>
 
-  {entry.data.cover && (
-    <section class="mx-auto max-w-3xl px-5 py-6">
+    {entry.data.cover && (
       <img
         src={entry.data.cover}
         alt={entry.data.title}
-        class="w-full border border-blueprint-lighter/40 object-cover"
+        class="mt-5 max-w-[600px] rounded border border-border object-cover"
         loading="eager"
       />
-    </section>
-  )}
+    )}
 
-  {entry.data.cadEmbed && (
-    <section class="mx-auto max-w-3xl px-5 pb-6">
-      <p class="mb-2 font-mono text-[11px] uppercase tracking-widest text-line-dim">Interactive CAD</p>
-      <div class="aspect-video w-full border border-blueprint-lighter/40">
-        <iframe
-          src={entry.data.cadEmbed}
-          class="h-full w-full"
-          loading="lazy"
-          allowfullscreen
-          title={`${entry.data.title} — CAD viewer`}
-        ></iframe>
+    {entry.data.cadEmbed && (
+      <div class="mt-5 max-w-[600px]">
+        <p class="mb-1.5 font-mono text-[11px] text-ink-dim">Interactive CAD</p>
+        <div class="aspect-video w-full overflow-hidden rounded border border-border">
+          <iframe src={entry.data.cadEmbed} class="h-full w-full" loading="lazy" allowfullscreen title={`${entry.data.title} — CAD viewer`}></iframe>
+        </div>
       </div>
-    </section>
-  )}
+    )}
 
-  {entry.data.video && (
-    <section class="mx-auto max-w-3xl px-5 pb-6">
-      <div class="aspect-video w-full border border-blueprint-lighter/40">
-        <iframe
-          src={entry.data.video}
-          class="h-full w-full"
-          loading="lazy"
-          allowfullscreen
-          title={`${entry.data.title} — video`}
-        ></iframe>
+    {entry.data.video && (
+      <div class="mt-5 max-w-[600px]">
+        <div class="aspect-video w-full overflow-hidden rounded border border-border">
+          <iframe src={entry.data.video} class="h-full w-full" loading="lazy" allowfullscreen title={`${entry.data.title} — video`}></iframe>
+        </div>
       </div>
-    </section>
-  )}
+    )}
 
-  {entry.data.gallery.length > 0 && (
-    <section class="mx-auto max-w-3xl px-5 pb-6">
-      <p class="mb-2 font-mono text-[11px] uppercase tracking-widest text-line-dim">Gallery</p>
-      <div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
-        {entry.data.gallery.map((src: string) => (
-          <img src={src} alt="" class="aspect-square w-full border border-blueprint-lighter/40 object-cover" loading="lazy" />
-        ))}
+    {entry.data.gallery.length > 0 && (
+      <div class="mt-5 max-w-[600px]">
+        <p class="mb-1.5 font-mono text-[11px] text-ink-dim">Gallery</p>
+        <div class="grid grid-cols-3 gap-2">
+          {entry.data.gallery.map((src: string) => (
+            <img src={src} alt="" class="aspect-square w-full rounded border border-border object-cover" loading="lazy" />
+          ))}
+        </div>
       </div>
-    </section>
-  )}
+    )}
 
-  <DimensionDivider label="Problem — Approach — Result — Lesson" />
+    <div class="mt-6 max-w-[600px] border-t border-border pt-1">
+      <Callout index="01" label="Problem">{entry.data.problem}</Callout>
+      <Callout index="02" label="Approach">{entry.data.approach}</Callout>
+      <Callout index="03" label="Result">{entry.data.result}</Callout>
+      <Callout index="04" label="Lesson">{entry.data.lesson}</Callout>
+    </div>
 
-  <section class="mx-auto max-w-3xl px-5 py-6">
-    <Callout index="01" label="Problem">{entry.data.problem}</Callout>
-    <Callout index="02" label="Approach">{entry.data.approach}</Callout>
-    <Callout index="03" label="Result">{entry.data.result}</Callout>
-    <Callout index="04" label="Lesson">{entry.data.lesson}</Callout>
-  </section>
-
-  <DimensionDivider label="Notes" />
-
-  <section class="prose prose-invert mx-auto max-w-3xl px-5 py-8 prose-headings:font-display prose-headings:text-line prose-p:text-line-dim prose-a:text-brass prose-strong:text-line prose-img:border prose-img:border-blueprint-lighter/40">
-    <Content />
-  </section>
+    <div class="prose prose-sm mt-6 max-w-[600px] prose-headings:font-semibold prose-a:text-accent-dim">
+      <Content />
+    </div>
+  </div>
 </Layout>

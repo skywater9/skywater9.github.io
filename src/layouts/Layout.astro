@@ -1,14 +1,16 @@
 ---
 import '../styles/global.css';
 import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import Sidebar from '../components/Sidebar.astro';
+import StatusBar from '../components/StatusBar.astro';
 
 interface Props {
   title: string;
   description?: string;
+  statusPath?: string;
 }
 
-const { title, description = 'Mühendislik proje portföyü.' } = Astro.props;
+const { title, description = 'Engineering project portfolio.', statusPath = 'Home' } = Astro.props;
 ---
 
 <html lang="en">
@@ -23,17 +25,18 @@ const { title, description = 'Mühendislik proje portföyü.' } = Astro.props;
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
-  <body>
-    <div id="app" class="flex min-h-screen flex-col">
-      <Header />
-      <main class="flex-1">
+  <body class="flex h-screen flex-col overflow-hidden">
+    <Header />
+    <div class="relative flex flex-1 overflow-hidden">
+      <Sidebar />
+      <main class="viewport-grid flex-1 overflow-y-auto">
         <slot />
       </main>
-      <Footer />
     </div>
+    <StatusBar currentPath={statusPath} />
   </body>
 </html>

@@ -1,0 +1,15 @@
+---
+interface Props {
+  rows: { k: string; v: string }[];
+}
+const { rows } = Astro.props;
+---
+
+<div class="mt-5 max-w-[520px] overflow-hidden rounded-md border border-border">
+  {rows.map((row, i) => (
+    <div class={`grid grid-cols-[130px_1fr] text-[12.5px] ${i !== 0 ? 'border-t border-border' : ''}`}>
+      <div class="border-r border-border bg-chrome px-2.5 py-1.5 font-mono text-ink-dim">{row.k}</div>
+      <div class="bg-white px-2.5 py-1.5">{row.v}</div>
+    </div>
+  ))}
+</div>
