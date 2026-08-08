@@ -18,16 +18,34 @@ const tree = await Promise.all(
 
 <aside
   id="sidebar"
-  class="fixed inset-y-0 left-0 z-40 w-[78%] max-w-[280px] -translate-x-full overflow-y-auto border-r border-border bg-chrome text-[13px] transition-transform duration-150 md:static md:z-0 md:w-[230px] md:translate-x-0"
+  class="fixed inset-y-0 left-0 z-40 w-[78%] max-w-[280px] -translate-x-full overflow-y-auto border-r border-divider bg-shell text-[13px] text-black transition-transform duration-150 md:static md:z-0 md:w-[230px] md:translate-x-0"
 >
-  <p class="px-3.5 pb-1 pt-2 font-mono text-[10px] uppercase tracking-wider text-ink-dim">Portfolio Tree</p>
+  <div class="relative h-[22px] w-full" aria-hidden="true">
+    <span class="absolute inset-x-0 top-2 h-px bg-divider/45"></span>
+    <img src="/images/ui/dot-icon.png" alt="" class="absolute left-1/2 top-4 h-[50px] w-[50px] -translate-x-1/2 -translate-y-1/2 object-contain" />
+    <span class="absolute inset-x-0 bottom-0 h-px bg-divider/45"></span>
+  </div>
+
+  <p class="relative -left-0.5 flex h-8 items-center pr-2.5 text-[13px] text-black">
+    <img src="/images/ui/asm-icon.png" alt="" aria-hidden="true" class="relative -left-0.5 h-9 w-9 shrink-0 object-contain" />
+    <span class="-ml-1.5">Engineering Portfolio</span>
+  </p>
 
   {tree.map(({ key, label, entries }) => (
-    <div>
-      <div class="flex items-center gap-1.5 px-2.5 py-1.5 pl-3.5 text-ink">
-        <span class="w-2.5 text-[9px] text-ink-dim">▾</span>
-        <span>📁</span>
-        <a href={`/${key}/`} class={`hover:underline ${path === `/${key}/` ? 'font-semibold text-accent-dim' : ''}`}>
+    <div class="relative">
+      <span aria-hidden="true" class="pointer-events-none absolute bottom-0 left-[14px] top-[23px] z-10 w-px bg-divider/35"></span>
+      <div
+        class={`flex items-center gap-0.5 border border-dashed py-0.5 pl-1 pr-2.5 text-black ${
+          path === `/${key}/`
+            ? 'border-[#799cb4] bg-[#a7c8e2]'
+            : 'border-transparent hover:border-[#5f5f5f]'
+        }`}
+      >
+        <span class="mr-0.5 w-4 text-center leading-none text-ink-dim">
+          <span class="relative -top-0.5 inline-block origin-center text-[16px] [transform:scaleX(1.4)]">▾</span>
+        </span>
+        <img src="/images/ui/folder-icon.png" alt="" aria-hidden="true" class="h-[25px] w-[25px] shrink-0 object-contain" />
+        <a href={`/${key}/`} class={path === `/${key}/` ? 'font-semibold' : ''}>
           {label}
         </a>
       </div>
@@ -37,11 +55,14 @@ const tree = await Promise.all(
         return (
           <a
             href={href}
-            class={`flex items-center gap-1.5 py-1 pl-[34px] pr-2.5 text-[12.5px] ${
-              active ? 'bg-accent-bg font-semibold text-accent-dim' : 'text-ink-dim hover:bg-chrome-dark hover:text-ink'
+            class={`flex items-start gap-0.5 border border-dashed py-0.5 pl-[24px] pr-2.5 text-[12.5px] ${
+              active
+                ? 'border-[#799cb4] bg-[#a7c8e2] font-semibold text-black'
+                : 'border-transparent text-black hover:border-[#5f5f5f]'
             }`}
           >
-            📄 {entry.data.title}
+            <img src="/images/ui/part-icon.png" alt="" aria-hidden="true" class="relative -top-0.5 h-[25px] w-[25px] shrink-0 object-contain" />
+            <span>{entry.data.title}</span>
           </a>
         );
       })}

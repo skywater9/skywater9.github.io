@@ -27,7 +27,7 @@ const links = [
 ---
 
 <Layout title={`${entry.data.title} — ${meta.label}`} description={entry.data.summary} statusPath={`${meta.label} / ${entry.data.title}`}>
-  <div class="p-6 md:p-8">
+  <div class="mx-auto w-full max-w-[664px] p-6 md:p-8">
     <a href={`/${collection}/`} class="font-mono text-[11px] text-ink-dim hover:text-accent-dim">
       ← Back to {meta.label}
     </a>
@@ -64,7 +64,7 @@ const links = [
       <img
         src={entry.data.cover}
         alt={entry.data.title}
-        class="mt-5 max-w-[600px] rounded border border-border object-cover"
+        class="mt-5 w-full max-w-[600px] rounded border border-border object-cover"
         loading="eager"
       />
     )}
