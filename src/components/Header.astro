@@ -2,46 +2,38 @@
 import { COLLECTION_ORDER, COLLECTION_META } from '../data/collections';
 
 const path = Astro.url.pathname;
+const isHome = path === '/';
 ---
 
-<header class="sticky top-0 z-20 border-b border-blueprint-light/40 bg-ink/90 backdrop-blur">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-    <a href="/" class="font-display text-sm font-semibold tracking-wide text-line hover:text-brass">
-      Demir Göksu <span class="text-line-dim">/ Portfolio</span>
+<header class="sticky top-0 z-20">
+  <!-- titlebar -->
+  <div class="flex items-center gap-2.5 border-b border-border bg-shell py-1.5 pl-2.5 pr-3.5">
+    <a href="/" class="text-[13px] text-ink">
+      <span><span class="text-accent">DEMIR <strong>GOKSU</strong></span> — Engineering Portfolio</span>
+      <span class="font-normal text-ink-dim">· Rev 2026-07</span>
     </a>
-
-    <nav class="hidden items-center gap-5 font-mono text-[11px] uppercase tracking-wider text-line-dim md:flex">
-      {COLLECTION_ORDER.map((key) => (
-        <a
-          href={`/${key}/`}
-          class={`transition-colors hover:text-brass ${path.startsWith(`/${key}`) ? 'text-brass' : ''}`}
-        >
-          {COLLECTION_META[key].sheet}·{COLLECTION_META[key].label}
-        </a>
-      ))}
-    </nav>
-
-    <div class="flex items-center gap-3">
-      <span class="hidden rounded-sm border border-blueprint-lighter/60 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-line-dim sm:inline-block">
-        Rev. {new Date().toISOString().slice(0, 7)}
-      </span>
-
-      <!-- Mobil menu: native <details>, JS gerektirmez -->
-      <details class="relative md:hidden">
-        <summary class="list-none rounded-sm border border-blueprint-lighter/60 px-2.5 py-1.5 font-mono text-[11px] uppercase tracking-widest text-line-dim [&::-webkit-details-marker]:hidden">
-          Menü
-        </summary>
-        <nav class="absolute right-0 top-[calc(100%+8px)] flex w-56 flex-col gap-1 border border-blueprint-lighter/50 bg-ink-soft p-3 font-mono text-[11px] uppercase tracking-wider text-line-dim shadow-lg">
-          {COLLECTION_ORDER.map((key) => (
-            <a
-              href={`/${key}/`}
-              class={`rounded-sm px-2 py-1.5 transition-colors hover:bg-blueprint hover:text-brass ${path.startsWith(`/${key}`) ? 'text-brass' : ''}`}
-            >
-              {COLLECTION_META[key].sheet}·{COLLECTION_META[key].label}
-            </a>
-          ))}
-        </nav>
-      </details>
-    </div>
   </div>
+
+  <!-- menu bar: real, meaningful nav -->
+  <nav class="flex gap-0.5 overflow-x-auto border-b border-divider bg-shell pl-0 pr-2 text-[13px]">
+    <a href="/" class={`relative whitespace-nowrap border py-2 pl-[38px] pr-3 hover:bg-[#d6d6d6] ${isHome ? 'border-[#b0b0b0] bg-[#d6d6d6]' : 'border-transparent'}`}>
+      <img src="/images/ui/home-icon.png" alt="" aria-hidden="true" class="absolute left-0.5 top-1/2 h-8 w-8 -translate-y-1/2 object-contain" />
+      <span>Home</span>
+    </a>
+    {COLLECTION_ORDER.map((key) => (
+      <a
+        href={`/${key}/`}
+        class={`whitespace-nowrap border px-3 py-2 hover:bg-[#d6d6d6] ${
+          path.startsWith(`/${key}`) ? 'border-[#b0b0b0] bg-[#d6d6d6]' : 'border-transparent'
+        }`}
+      >
+        {COLLECTION_META[key].label}
+      </a>
+    ))}
+    <a href="/about/" class={`relative whitespace-nowrap border py-2 pl-[42px] pr-3 hover:bg-[#d6d6d6] ${path === '/about/' ? 'border-[#b0b0b0] bg-[#d6d6d6]' : 'border-transparent'}`}>
+      <img src="/images/ui/about-icon.png" alt="" aria-hidden="true" class="absolute left-2 top-1/2 h-7 w-7 -translate-y-1/2 object-contain" />
+      <span>About</span>
+    </a>
+  </nav>
+
 </header>

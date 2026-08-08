@@ -1,0 +1,113 @@
+---
+import { getCollection } from 'astro:content';
+import { COLLECTION_ORDER, COLLECTION_META } from '../data/collections';
+
+const projects = (
+  await Promise.all(
+    COLLECTION_ORDER.map(async (collection) =>
+      (await getCollection(collection, ({ data }) => !data.draft)).map((entry) => ({
+        title: entry.data.title,
+        collection: COLLECTION_META[collection].label,
+        href: `/${collection}/${entry.id}/`,
+      }))
+    )
+  )
+).flat();
+---
+
+<div class="flex h-[31px] w-full items-center gap-1.5 border-b border-r border-divider bg-[#d1d1d1] px-2.5 md:relative md:z-10 md:w-[460px]">
+  <button id="tree-toggle" title="Show sections" class="flex h-6 w-6 shrink-0 items-center justify-center rounded text-ink-dim hover:bg-chrome-dark md:hidden">☰</button>
+  <div class="mx-1 w-px shrink-0 self-stretch bg-divider md:hidden"></div>
+  <form
+    id="project-search"
+    class="relative flex h-[23px] min-w-0 flex-1 items-center gap-1.5 border border-divider bg-shell px-0.5 text-[12px] text-ink-dim md:w-[260px] md:flex-none"
+    data-projects={JSON.stringify(projects)}
+  >
+    <button type="submit" title="Search projects" class="shrink-0">
+      <img src="/images/ui/search-icon.png" alt="" aria-hidden="true" class="h-[25px] w-[25px] object-contain" />
+    </button>
+    <input
+      id="project-search-input"
+      type="search"
+      placeholder="Search projects…"
+      aria-label="Search projects"
+      autocomplete="off"
+      class="min-w-0 flex-1 bg-transparent text-black outline-none placeholder:text-ink-dim"
+    />
+    <div
+      id="project-search-options"
+      hidden
+      class="absolute left-0 top-[calc(100%+1px)] z-50 w-full border border-[#666] bg-[#e2e2e2] text-black shadow-[2px_2px_0_rgba(0,0,0,0.18)]"
+    >
+      {projects.map((project) => (
+        <a
+          href={project.href}
+          data-search-title={project.title.toLocaleLowerCase()}
+          class="block border-b border-[#aaa] px-2 py-1 last:border-b-0 hover:bg-[#cecece]"
+        >
+          <span class="block truncate">{project.title}</span>
+          <span class="block truncate text-[10px] text-[#555]">{project.collection}</span>
+        </a>
+      ))}
+    </div>
+  </form>
+  <div class="mx-1 w-px shrink-0 self-stretch bg-divider"></div>
+  <a href="/resume.pdf" title="Download résumé" class="-ml-2.5 -mr-2.5 flex h-[31px] flex-1 items-center gap-1.5 pl-2.5 pr-2.5 text-[12px] text-ink hover:bg-[#bcbcbc]">
+    <img src="/images/ui/download-icon.png" alt="" aria-hidden="true" class="h-[35px] w-[35px] shrink-0 object-contain" />
+    <span>Download Resume</span>
+  </a>
+</div>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#project-search');
+  const input = document.querySelector<HTMLInputElement>('#project-search-input');
+  const options = document.querySelector<HTMLElement>('#project-search-options');
+  const optionLinks = Array.from(options?.querySelectorAll<HTMLAnchorElement>('[data-search-title]') ?? []);
+  const projects = JSON.parse(form?.dataset.projects ?? '[]') as Array<{ title: string; href: string }>;
+
+  function updateSuggestions() {
+    if (!input || !options) return;
+
+    input.setCustomValidity('');
+    const query = input.value.trim().toLocaleLowerCase();
+    let visible = 0;
+
+    optionLinks.forEach((option) => {
+      const matches = Boolean(query) && option.dataset.searchTitle?.includes(query) && visible < 6;
+      option.hidden = !matches;
+      if (matches) visible += 1;
+    });
+
+    options.hidden = visible === 0;
+  }
+
+  input?.addEventListener('input', updateSuggestions);
+  input?.addEventListener('focus', updateSuggestions);
+  input?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && options) options.hidden = true;
+  });
+
+  document.addEventListener('click', (event) => {
+    if (form && !form.contains(event.target as Node) && options) options.hidden = true;
+  });
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!input) return;
+
+    const query = input.value.trim().toLocaleLowerCase();
+    const match =
+      projects.find((project) => project.title.toLocaleLowerCase() === query) ??
+      projects.find((project) => project.title.toLocaleLowerCase().startsWith(query)) ??
+      projects.find((project) => project.title.toLocaleLowerCase().includes(query));
+
+    if (query && match) {
+      if (options) options.hidden = true;
+      window.location.href = match.href;
+      return;
+    }
+
+    input.setCustomValidity(query ? 'No matching project found.' : 'Enter a project name.');
+    input.reportValidity();
+  });
+</script>

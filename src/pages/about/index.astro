@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const awards = [
+  { award: "FIRST Robotics Competition Dean's List Semifinalist", year: '2026' },
+  { award: 'FIRST World Championship Qualifier', year: '2025' },
+  { award: 'VEX World Championship Qualifier', year: '2024' },
+  { award: 'Team First Award, FRC Team 1148', year: '2026' },
+];
+---
+
+<Layout title="About — Demir Göksu" description="Leadership and awards." statusPath="About">
+  <div class="mx-auto w-full max-w-[664px] p-6 md:p-8">
+    <p class="font-mono text-[10.5px] uppercase tracking-wide text-accent-dim">About</p>
+    <h1 class="mt-2 text-2xl font-bold md:text-[26px]">Leadership &amp; Awards</h1>
+    <p class="mt-2.5 max-w-[480px] text-[13.5px] leading-relaxed text-ink-dim">
+      Co-President of Turkish Club — founded a Turkish-American Academic Speaker Series connecting
+      students with university researchers in engineering, biology, and AI.
+    </p>
+
+    <table class="mt-5 max-w-[480px] w-full border-collapse bg-white text-[12.5px]">
+      <thead>
+        <tr>
+          <th class="border-b border-border bg-chrome px-3 py-2 text-left font-mono text-[10.5px] uppercase tracking-wide text-ink-dim">Award</th>
+          <th class="border-b border-border bg-chrome px-3 py-2 text-left font-mono text-[10.5px] uppercase tracking-wide text-ink-dim">Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        {awards.map((a) => (
+          <tr class="border-b border-[#e7e9e5]">
+            <td class="px-3 py-2.5">{a.award}</td>
+            <td class="px-3 py-2.5">{a.year}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</Layout>

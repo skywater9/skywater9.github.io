@@ -1,0 +1,6 @@
+# Installed dependencies
+node_modules/
+
+# Astro-generated files
+.astro/
+dist/

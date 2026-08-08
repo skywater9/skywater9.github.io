@@ -2,22 +2,21 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-display: "Space Grotesk", "Arial Narrow", sans-serif;
-  --font-body: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  --font-ui: "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Segoe UI", system-ui, sans-serif;
 
-  --color-ink: #0b2130;
-  --color-ink-soft: #0e2a3d;
-  --color-blueprint: #163a52;
-  --color-blueprint-light: #2e6f8e;
-  --color-blueprint-lighter: #4a90b3;
-  --color-line: #dceef4;
-  --color-line-dim: #a9c7d3;
-  --color-paper: #f3f1e7;
-  --color-paper-dim: #c9c6b8;
-  --color-brass: #d9a441;
-  --color-brass-dim: #a9803a;
-  --color-hazard: #c8553a;
+  --color-chrome: #eef0ee;
+  --color-chrome-dark: #dde0dc;
+  --color-shell: #f4f4f4;
+  --color-panel: #f7f8f6;
+  --color-border: #c7cbc4;
+  --color-divider: #878787;
+  --color-ink: #23262b;
+  --color-ink-dim: #63696f;
+  --color-accent: #c62828;
+  --color-accent-dim: #9f1f1f;
+  --color-accent-bg: #fde8e8;
+  --color-ok: #2f7d4f;
 }
 
 html {
@@ -25,44 +24,63 @@ html {
 }
 
 body {
-  background-color: var(--color-ink);
-  color: var(--color-line);
-  font-family: var(--font-body);
-  background-image:
-    linear-gradient(var(--color-blueprint-light) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-blueprint-light) 1px, transparent 1px);
-  background-size: 48px 48px;
+  margin: 0;
+  font-family: var(--font-ui);
+  background-color: var(--color-panel);
+  background-image: url("/images/ui/bg-gradient.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: -1px -1px;
+  color: var(--ink);
+}
+
+/* the "viewport" grid texture used behind main content areas */
+.viewport-grid {
   position: relative;
+  scrollbar-color: #a6a6a6 #dedede;
+  scrollbar-width: auto;
 }
-
-/* soften the grid so it reads as texture, not a checkerboard */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: var(--color-ink);
-  opacity: 0.86;
-  pointer-events: none;
-  z-index: 0;
-}
-
-#app {
+.viewport-grid > :not(.viewport-overlay) {
   position: relative;
   z-index: 1;
 }
 
-::selection {
-  background: var(--color-brass);
-  color: var(--color-ink);
+.axis-icon {
+  filter: drop-shadow(0 0 4px rgb(255 255 255)) drop-shadow(0 0 10px rgb(255 255 255 / 90%)) drop-shadow(0 0 16px rgb(255 255 255 / 60%));
 }
 
-/* hairline tick used by dimension dividers */
-.tick {
-  width: 1px;
-  height: 10px;
-  background: var(--color-blueprint-lighter);
+.viewport-grid::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+.viewport-grid::-webkit-scrollbar-track {
+  background: #dedede;
+  border-left: 1px solid #9b9b9b;
+  box-shadow: inset 1px 0 #f5f5f5;
+}
+
+.viewport-grid::-webkit-scrollbar-thumb {
+  min-height: 34px;
+  background: linear-gradient(90deg, #c9c9c9 0%, #adadad 52%, #c4c4c4 100%);
+  border: 1px solid #777;
+  border-radius: 0;
+  box-shadow: inset 1px 1px #ededed, inset -1px -1px #8d8d8d;
+}
+
+.viewport-grid::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #bdbdbd 0%, #999 52%, #b7b7b7 100%);
+}
+
+.viewport-grid::-webkit-scrollbar-corner {
+  background: #c8c8c8;
+  border: 1px solid #888;
+}
+
+::selection {
+  background: #a7c8e2;
+  color: #000;
 }
 
 @media (prefers-reduced-motion: reduce) {
