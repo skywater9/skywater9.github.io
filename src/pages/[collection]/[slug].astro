@@ -27,12 +27,8 @@ const links = [
 ---
 
 <Layout title={`${entry.data.title} — ${meta.label}`} description={entry.data.summary} statusPath={`${meta.label} / ${entry.data.title}`}>
-  <div class="mx-auto w-full max-w-[664px] p-6 md:p-8">
-    <a href={`/${collection}/`} class="font-mono text-[11px] text-ink-dim hover:text-accent-dim">
-      ← Back to {meta.label}
-    </a>
-
-    <p class="mt-3 font-mono text-[10.5px] uppercase tracking-wide text-accent-dim">{meta.label}</p>
+  <div class="p-4 md:p-5">
+    <p class="font-mono text-[10.5px] uppercase tracking-wide text-accent-dim">{meta.label}</p>
     <h1 class="mt-1 text-2xl font-bold md:text-[26px]">{entry.data.title}</h1>
     <p class="mt-2.5 max-w-[600px] text-[13.5px] leading-relaxed text-ink-dim">{entry.data.summary}</p>
     {entry.data.credit && <p class="mt-1 font-mono text-[11px] text-ink-dim">{entry.data.credit}</p>}
@@ -64,8 +60,9 @@ const links = [
       <img
         src={entry.data.cover}
         alt={entry.data.title}
-        class="mt-5 w-full max-w-[600px] rounded border border-border object-cover"
+        class="mt-5 max-w-[600px] rounded border border-border object-cover"
         loading="eager"
+        onerror="window.__imgFallback(this)"
       />
     )}
 
@@ -91,7 +88,7 @@ const links = [
         <p class="mb-1.5 font-mono text-[11px] text-ink-dim">Gallery</p>
         <div class="grid grid-cols-3 gap-2">
           {entry.data.gallery.map((src: string) => (
-            <img src={src} alt="" class="aspect-square w-full rounded border border-border object-cover" loading="lazy" />
+            <img src={src} alt="" class="aspect-square w-full rounded border border-border object-cover" loading="lazy" onerror="window.__imgFallback(this)" />
           ))}
         </div>
       </div>
