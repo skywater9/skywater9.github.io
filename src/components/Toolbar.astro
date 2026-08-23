@@ -15,12 +15,11 @@ const projects = (
 ).flat();
 ---
 
-<div class="flex h-[31px] w-full items-center gap-1.5 border-b border-r border-divider bg-[#d1d1d1] px-2.5 md:relative md:z-10 md:w-[460px]">
-  <button id="tree-toggle" title="Show sections" class="flex h-6 w-6 shrink-0 items-center justify-center rounded text-ink-dim hover:bg-chrome-dark md:hidden">☰</button>
-  <div class="mx-1 w-px shrink-0 self-stretch bg-divider md:hidden"></div>
+<div class="flex min-w-0 flex-1 self-stretch items-center gap-1.5 pl-0 pr-2.5 md:pl-2.5">
+  <button id="tree-toggle" type="button" title="Show sections" aria-expanded="false" class="flex h-full w-8 shrink-0 items-center justify-center border border-transparent text-black hover:border-[#4d7694] hover:bg-[#a7c8e2] aria-expanded:border-[#4d7694] aria-expanded:bg-[#a7c8e2] md:hidden">☰</button>
   <form
     id="project-search"
-    class="relative flex h-[23px] min-w-0 flex-1 items-center gap-1.5 border border-divider bg-shell px-0.5 text-[12px] text-ink-dim md:w-[260px] md:flex-none"
+    class="relative flex h-[23px] min-w-0 max-w-[260px] flex-1 items-center gap-1.5 border border-divider bg-shell px-0.5 text-[12px] text-ink-dim"
     data-projects={JSON.stringify(projects)}
   >
     <button type="submit" title="Search projects" class="shrink-0">
@@ -51,11 +50,6 @@ const projects = (
       ))}
     </div>
   </form>
-  <div class="mx-1 w-px shrink-0 self-stretch bg-divider"></div>
-  <a href="/resume.pdf" title="Download résumé" class="-ml-2.5 -mr-2.5 flex h-[31px] flex-1 items-center gap-1.5 pl-2.5 pr-2.5 text-[12px] text-ink hover:bg-[#bcbcbc]">
-    <img src="/images/ui/download-icon.png" alt="" aria-hidden="true" class="h-[35px] w-[35px] shrink-0 object-contain" />
-    <span>Download Resume</span>
-  </a>
 </div>
 
 <script>

@@ -3,7 +3,6 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Sidebar from '../components/Sidebar.astro';
 import StatusBar from '../components/StatusBar.astro';
-import AxisIndicator from '../components/AxisIndicator.astro';
 
 interface Props {
   title: string;
@@ -23,45 +22,21 @@ const { title, description = 'Engineering project portfolio.', statusPath = 'Hom
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-
-    <script is:inline>
-      // Shows a clean placeholder instead of a broken-image icon when an
-      // image path in the frontmatter doesn't resolve to a real file yet.
-      // Defined in <head> so it exists before the browser attempts to load
-      // any <img> further down the page.
-      window.__imgFallback = function (el) {
-        el.onerror = null;
-        el.src =
-          'data:image/svg+xml,' +
-          encodeURIComponent(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">' +
-              '<rect width="100%" height="100%" fill="#eef0ee"/>' +
-              '<text x="50%" y="50%" font-family="Inter, sans-serif" font-size="13" fill="#8a8f94" text-anchor="middle" dy=".3em">Image not found</text>' +
-              '</svg>'
-          );
-        el.style.width = '100%';
-        el.style.height = 'auto';
-        el.style.aspectRatio = '4 / 3';
-        el.style.objectFit = 'contain';
-        el.style.padding = '8px';
-      };
-    </script>
   </head>
   <body class="flex h-screen flex-col overflow-hidden">
     <Header />
-    <div class="relative flex min-w-0 flex-1 overflow-hidden">
+    <div class="relative grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden md:grid-cols-[230px_minmax(0,1fr)]">
       <Sidebar />
-      <main class="viewport-grid relative min-w-0 flex-1 overflow-x-hidden overflow-y-auto">
+      <main class="viewport-grid row-start-1 min-w-0 overflow-y-auto md:col-start-2 md:row-start-1">
         <slot />
+        <img
+          src="/images/ui/axis-icon.png"
+          alt=""
+          aria-hidden="true"
+          class="axis-icon viewport-overlay pointer-events-none fixed bottom-10 left-3 z-10 h-[84px] w-[84px] select-none object-contain md:left-[242px]"
+        />
       </main>
     </div>
     <StatusBar currentPath={statusPath} />
-    <AxisIndicator />
   </body>
 </html>
