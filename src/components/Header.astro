@@ -6,17 +6,30 @@ const path = `${Astro.url.pathname.replace(/\/+$/, '')}/`;
 ---
 
 <header class="sticky top-0 z-20 shrink-0">
-  <div class="flex h-6 items-center gap-2.5 border-b border-border bg-shell pl-2.5 pr-3.5">
-    <a href="/" class="flex h-full min-w-0 items-center gap-2 text-[13px]">
+  <div class="flex min-h-6 flex-wrap items-center justify-between gap-x-2.5 border-b border-border bg-shell pl-2.5 pr-3.5">
+    <a href="/" class="flex h-6 min-w-0 items-center gap-2 text-[13px]">
       <span class="shrink-0 text-accent">DEMIR <strong>GOKSU</strong></span>
       <span aria-hidden="true" class="h-full w-px shrink-0 bg-border"></span>
       <span class="truncate font-medium text-[#1d2024]">Engineering Portfolio</span>
       <span class="hidden shrink-0 font-normal text-[#3f4449] sm:inline">· Rev 2026-07</span>
     </a>
+    <div class="ml-auto flex min-h-6 flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] text-black">
+      <a href="mailto:example@email.com" class="hover:underline">Email</a>
+      <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
+      <a href="https://github.com/skywater9" class="hover:underline">GitHub</a>
+      <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
+      <a href="https://linkedin.com/in/yourprofile" class="hover:underline">LinkedIn</a>
+      <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
+      <span class="flex items-center gap-1 whitespace-nowrap">
+        <img src="/images/ui/traffic-icon.png" alt="" aria-hidden="true" class="h-[15px] w-auto object-contain" />
+        <span>synced from GitHub</span>
+      </span>
+    </div>
   </div>
 
-  <div class="flex flex-col border-b border-divider bg-shell text-[13px] lg:flex-row">
-    <nav aria-label="Main navigation" class="flex min-w-0 items-center gap-0.5 overflow-x-auto lg:shrink-0">
+  <div class="flex items-center border-b border-divider bg-shell text-[13px]">
+    <button id="tree-toggle" type="button" title="Show sections" aria-label="Show sections" aria-controls="sidebar" aria-expanded="false" class="flex h-8 w-8 shrink-0 items-center justify-center border border-transparent text-black hover:border-[#4d7694] hover:bg-[#a7c8e2] aria-expanded:border-[#4d7694] aria-expanded:bg-[#a7c8e2] md:hidden">☰</button>
+    <nav aria-label="Main navigation" class="flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto">
       {NAVIGATION.map(({ label, href }) => (
         <a
           href={href}
