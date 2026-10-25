@@ -5,9 +5,9 @@ interface Props {
 const { currentPath } = Astro.props;
 ---
 
-<footer class="flex items-center justify-between border-t border-border bg-shell px-3.5 py-1 font-mono text-[11px] text-black">
-  <span>{currentPath}</span>
-  <div class="flex items-center gap-2.5">
+<footer class="flex shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-border bg-shell px-3.5 py-1 font-mono text-[11px] text-black">
+  <span class="shrink-0">{currentPath}</span>
+  <div class="flex flex-wrap items-center gap-2.5">
     <a href="mailto:example@email.com" class="hover:underline">Email</a>
     <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
     <a href="https://github.com/skywater9" class="hover:underline">GitHub</a>

@@ -1,23 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PropertiesPanel from '../components/PropertiesPanel.astro';
-
-const rows = [
-  { k: 'Role', v: 'High School Senior · Class of 2027' },
-  { k: 'Sections', v: 'Research · FRC Robotics · CAD Design · Rocket Design · STEM Outreach' },
-  { k: 'Last Updated', v: '2026-07' },
-];
 ---
 
-<Layout title="Demir Göksu — Engineering Portfolio" description="Research, FRC robotics, CAD design, rocketry, and STEM outreach work." statusPath="Home">
-  <div class="mx-auto w-full max-w-[664px] p-6 md:p-8">
-    <p class="font-mono text-[10.5px] uppercase tracking-wide text-accent-dim">Portfolio Overview</p>
-    <h1 class="mt-2 text-2xl font-bold md:text-[26px]">Demir Göksu</h1>
-    <p class="mt-2.5 max-w-[480px] text-[13.5px] leading-relaxed text-ink-dim">
-      High school senior building engineering projects across research, robotics, and rocketry —
-      from a custom tensile testing rig to remote CAD mentorship for a robotics program in Hatay, Turkey.
-    </p>
-
-    <PropertiesPanel rows={rows} />
-  </div>
-</Layout>
+<Layout title="Demir Göksu — Engineering Portfolio" statusPath="Home" />

@@ -1,15 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
-import { COLLECTION_ORDER, COLLECTION_META, type CollectionKey } from '../data/collections';
-
-const path = Astro.url.pathname;
+import { COLLECTION_ORDER, COLLECTION_META } from '../data/collections';
 
 const tree = await Promise.all(
   COLLECTION_ORDER.map(async (key) => {
     const entries = (await getCollection(key, ({ data }) => !data.draft)).sort(
       (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
     );
-    return { key, label: COLLECTION_META[key].label, entries };
+    return { label: COLLECTION_META[key].label, entries };
   })
 );
 ---
@@ -31,50 +29,38 @@ const tree = await Promise.all(
     <span class="-ml-1.5">Engineering Portfolio</span>
   </p>
 
-  {tree.map(({ key, label, entries }) => (
+  {tree.map(({ label, entries }) => (
     <div class="relative">
       <div class="flex items-center">
         <span class="w-[24px] shrink-0 text-center leading-none text-ink-dim">
           <span class="relative -left-0.5 -top-0.5 inline-block origin-center text-[12.8px] [transform:scaleX(1.6)]">▾</span>
         </span>
-        <a
-          href={`/${key}/`}
-          aria-current={path === `/${key}/` ? 'page' : undefined}
-          class={`flex w-fit max-w-[calc(100%-28px)] items-center gap-0.5 border py-0.5 pr-2.5 text-black ${
-            path === `/${key}/`
-              ? 'border-[#4d7694] bg-[#a7c8e2] font-semibold'
-              : 'border-transparent hover:border-[#a5a9a4] hover:bg-[#fafafa]'
-          }`}
+        <span
+          role="link"
+          aria-disabled="true"
+          class="flex w-fit max-w-[calc(100%-28px)] cursor-default items-center gap-0.5 border border-transparent py-0.5 pr-2.5 text-black hover:border-[#a5a9a4] hover:bg-[#fafafa]"
         >
           <img src="/images/ui/folder-icon.png" alt="" aria-hidden="true" class="h-[25px] w-[25px] shrink-0 object-contain" />
           <span>{label}</span>
-        </a>
+        </span>
       </div>
-      {entries.map((entry) => {
-        const href = `/${key}/${entry.id}/`;
-        const active = path === href;
-        return (
-          <a
-            href={href}
-            aria-current={active ? 'page' : undefined}
-            class={`ml-[24px] flex w-fit max-w-[calc(100%-28px)] items-start gap-0.5 border py-0.5 pr-2.5 text-[12.5px] ${
-              active
-                ? 'border-[#4d7694] bg-[#a7c8e2] font-semibold text-black'
-                : 'border-transparent text-black hover:border-[#a5a9a4] hover:bg-[#fafafa]'
-            }`}
-          >
-            <img src="/images/ui/part-icon.png" alt="" aria-hidden="true" class="relative -top-0.5 h-[25px] w-[25px] shrink-0 object-contain" />
-            <span>{entry.data.title}</span>
-          </a>
-        );
-      })}
+      {entries.map((entry) => (
+        <span
+          role="link"
+          aria-disabled="true"
+          class="ml-[24px] flex w-fit max-w-[calc(100%-28px)] cursor-default items-start gap-0.5 border border-transparent py-0.5 pr-2.5 text-[12.5px] text-black hover:border-[#a5a9a4] hover:bg-[#fafafa]"
+        >
+          <img src="/images/ui/part-icon.png" alt="" aria-hidden="true" class="relative -top-0.5 h-[25px] w-[25px] shrink-0 object-contain" />
+          <span>{entry.data.title}</span>
+        </span>
+      ))}
     </div>
   ))}
 
-  <a href="/resume.pdf" title="Download résumé" class="mx-1 mb-1 mt-auto flex min-h-[36px] w-[calc(100%-0.5rem)] shrink-0 items-center gap-1.5 border border-[#969b94] bg-[#e4e5e2] pr-2.5 text-[12px] text-ink hover:bg-[#d8dad6]">
+  <span role="link" aria-disabled="true" title="Download résumé" class="mx-1 mb-1 mt-auto flex min-h-[36px] w-[calc(100%-0.5rem)] shrink-0 cursor-default items-center gap-1.5 border border-[#969b94] bg-[#e4e5e2] pr-2.5 text-[12px] text-ink hover:bg-[#d8dad6]">
     <img src="/images/ui/download-icon.png" alt="" aria-hidden="true" class="h-[35px] w-[35px] shrink-0 object-contain" />
     <span>Download Resume</span>
-  </a>
+  </span>
 </aside>
 
 <script>
@@ -96,4 +82,10 @@ const tree = await Promise.all(
     sidebar?.classList.contains('-translate-x-full') ? openDrawer() : closeDrawer();
   });
   backdrop?.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      closeDrawer();
+      toggle.focus();
+    }
+  });
 </script>

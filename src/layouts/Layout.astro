@@ -27,13 +27,13 @@ const { title, description = 'Engineering project portfolio.', statusPath = 'Hom
     <Header />
     <div class="relative grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden md:grid-cols-[230px_minmax(0,1fr)]">
       <Sidebar />
-      <main class="viewport-grid row-start-1 min-w-0 overflow-y-auto md:col-start-2 md:row-start-1">
+      <main aria-label={statusPath} class="viewport-grid row-start-1 min-w-0 overflow-y-auto md:col-start-2 md:row-start-1">
         <slot />
         <img
           src="/images/ui/axis-icon.png"
           alt=""
           aria-hidden="true"
-          class="axis-icon viewport-overlay pointer-events-none fixed bottom-10 left-3 z-10 h-[84px] w-[84px] select-none object-contain md:left-[242px]"
+          class="axis-icon viewport-overlay pointer-events-none absolute bottom-3 left-3 z-10 h-[84px] w-[84px] select-none object-contain"
         />
       </main>
     </div>
