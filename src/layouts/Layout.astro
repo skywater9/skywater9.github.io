@@ -24,17 +24,32 @@ const { title, description = 'Engineering project portfolio.', statusPath = 'Hom
   </head>
   <body class="flex h-screen flex-col overflow-hidden">
     <Header />
-    <div class="relative grid min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden md:grid-cols-[230px_minmax(0,1fr)]">
+    <div id="page-shell" class="page-shell relative grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] overflow-hidden">
       <Sidebar />
-      <main aria-label={statusPath} class="viewport-grid row-start-1 min-w-0 overflow-y-auto md:col-start-2 md:row-start-1">
-        <slot />
-        <img
-          src="/images/ui/axis-icon.png"
-          alt=""
-          aria-hidden="true"
-          class="axis-icon viewport-overlay pointer-events-none absolute bottom-3 left-3 z-10 h-[84px] w-[84px] select-none object-contain"
-        />
+      <div class="sidebar-edge-control">
+        <button
+          id="sidebar-edge-toggle"
+          class="sidebar-edge-toggle"
+          type="button"
+          aria-controls="sidebar"
+          aria-label="Toggle sidebar"
+          title="Toggle sidebar"
+        >
+          <svg viewBox="0 0 16 18" width="12" height="16" fill="none" aria-hidden="true">
+            <path d="m10 4-5 5 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <main id="page-viewport" aria-label={statusPath} class="viewport-grid row-start-1 min-w-0 overflow-y-auto md:col-start-2 md:row-start-1">
+        <div id="page-content"><slot /></div>
       </main>
+      <img
+        src="/images/ui/axis-icon.png"
+        alt=""
+        aria-hidden="true"
+        class="axis-icon viewport-overlay pointer-events-none absolute bottom-3 z-10 h-[84px] w-[84px] select-none object-contain"
+        style="left: calc(var(--sidebar-width) + 12px)"
+      />
     </div>
   </body>
 </html>
