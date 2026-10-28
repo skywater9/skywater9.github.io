@@ -1,9 +1,51 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getEngineeringProjects, getEngineeringProjectsBanner } from '../../data/engineering-projects';
+
+const projects = getEngineeringProjects();
+const bannerImage = getEngineeringProjectsBanner();
+const rocketryIndex = projects.findIndex((project) => project.slug === 'high-power-rocketry');
+const topologyIndex = projects.findIndex((project) => project.slug === 'topology-optimizer');
+
+if (rocketryIndex !== -1 && topologyIndex !== -1) {
+  [projects[rocketryIndex], projects[topologyIndex]] = [projects[topologyIndex], projects[rocketryIndex]];
+}
 ---
 
 <Layout title="Engineering Projects — Demir Göksu" statusPath="Engineering Projects">
-  <div class="mx-auto max-w-[760px] p-6 md:p-8">
-    <h1 class="text-2xl font-bold md:text-[26px]">Engineering Projects</h1>
+  {bannerImage && (
+    <div class="banner-image-fade relative h-[calc(min(32vw,300px)+50px)] min-h-[194px] overflow-hidden">
+      <img
+        src={bannerImage}
+        alt="Engineering Projects banner"
+        class="block h-full w-full object-cover object-center"
+      />
+      <div aria-hidden="true" class="absolute inset-0 bg-black/[33%]"></div>
+    </div>
+  )}
+  <div class="mx-auto max-w-[900px] p-6 md:p-8">
+    <h1 class="mb-6 text-2xl font-bold md:text-[26px]">Engineering Projects</h1>
+    <div class="grid grid-cols-2 gap-4 md:gap-6">
+      {projects.map((project) => (
+        <article class="mx-auto flex aspect-[0.92/1] w-[90%] min-w-0 flex-col border border-[#777] bg-shell pt-[7.5%] transition duration-200 hover:z-10 hover:scale-[1.02] hover:bg-[#f8f8f8]">
+          <a
+            href={`/engineering-projects/${project.slug}/`}
+            aria-label={`View ${project.name}`}
+            class="mx-auto block aspect-square w-5/6 overflow-hidden border border-border bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            <img
+              src={project.coverImage}
+              alt={project.name}
+              class="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </a>
+          <div class="mx-3 mt-auto mb-3 flex items-end justify-between gap-2 pt-3 md:mx-4 md:mb-4">
+            <h2 class="min-w-0 text-left text-sm font-semibold md:text-base">{project.name}</h2>
+            <img src="/images/ui/asm-icon.png" alt="" aria-hidden="true" class="h-7 w-7 shrink-0 object-contain" />
+          </div>
+        </article>
+      ))}
+    </div>
   </div>
 </Layout>
