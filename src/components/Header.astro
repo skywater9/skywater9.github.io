@@ -1,25 +1,51 @@
 ---
 import Toolbar from './Toolbar.astro';
+import { NAVIGATION } from '../data/navigation';
 
-const path = Astro.url.pathname;
-const isHome = path === '/';
+const path = `${Astro.url.pathname.replace(/\/+$/, '')}/`;
 ---
 
-<header class="sticky top-0 z-20">
-  <div class="flex h-6 items-center gap-2.5 border-b border-border bg-shell pl-2.5 pr-3.5">
-    <a href="/" class="flex h-full items-center gap-2 text-[13px]">
-      <span class="text-accent">DEMIR <strong>GOKSU</strong></span>
-      <span aria-hidden="true" class="h-full w-px bg-border"></span>
-      <span class="font-medium text-[#1d2024]">Engineering Portfolio</span>
-      <span class="font-normal text-[#3f4449]">· Rev 2026-07</span>
+<header class="sticky top-0 z-20 shrink-0">
+  <div class="flex min-h-6 flex-wrap items-center justify-between gap-x-2.5 border-b border-border bg-shell pl-2.5 pr-3.5">
+    <a href="/" class="flex h-6 min-w-0 items-center gap-2 text-[13px]">
+      <span class="shrink-0 text-accent">DEMIR <strong>GOKSU</strong></span>
     </a>
+    <div class="ml-auto flex min-h-6 flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[11px] text-black">
+      <a href="mailto:example@email.com" class="hover:underline">Email</a>
+      <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
+      <a href="https://github.com/skywater9" class="hover:underline">GitHub</a>
+      <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
+      <a href="https://linkedin.com/in/yourprofile" class="hover:underline">LinkedIn</a>
+      <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
+      <span class="flex items-center gap-1 whitespace-nowrap">
+        <img src="/images/ui/traffic-icon.png" alt="" aria-hidden="true" class="h-[15px] w-auto object-contain" />
+        <span>synced from GitHub</span>
+      </span>
+    </div>
   </div>
 
-  <nav class="flex items-center gap-0.5 border-b border-divider bg-shell text-[13px]">
-    <a href="/" class={`relative whitespace-nowrap border py-2 pl-[38px] pr-3 hover:border-[#4d7694] hover:bg-[#a7c8e2] ${isHome ? 'border-[#4d7694] bg-[#a7c8e2]' : 'border-transparent'}`}>
-      <img src="/images/ui/home-icon.png" alt="" aria-hidden="true" class="absolute left-0.5 top-1/2 h-8 w-8 -translate-y-1/2 object-contain" />
-      <span>Home</span>
-    </a>
+  <div class="flex items-center border-b border-divider bg-shell text-[15px]">
+    <button id="tree-toggle" type="button" title="Show page contents" aria-label="Show page contents" aria-controls="sidebar" aria-expanded="false" class="flex h-[38px] w-[38px] shrink-0 items-center justify-center border border-transparent text-black hover:border-[#a5a9a4] hover:bg-[#fafafa] aria-expanded:border-[#4d7694] aria-expanded:bg-[#a7c8e2] disabled:opacity-40 md:hidden">☰</button>
+    <nav aria-label="Main navigation" class="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
+      {NAVIGATION.map(({ label, href, icon }) => (
+        <a
+          href={href}
+          aria-current={path === href ? 'page' : undefined}
+          class={`navigation-link relative shrink-0 whitespace-nowrap border py-2 pl-[49px] pr-3.5 ${path === href ? 'border-[#4d7694]' : 'border-transparent hover:border-[#a5a9a4] hover:bg-[#fafafa]'}`}
+        >
+          <img src={`/images/ui/${icon}`} alt="" aria-hidden="true" class={`absolute top-1/2 -translate-y-1/2 object-contain ${href === '/resume/' ? 'left-2 h-7 w-7' : 'left-[6px] h-8 w-8'}`} />
+          <span class={path === href ? 'font-bold' : undefined}>{label}</span>
+        </a>
+      ))}
+    </nav>
     <Toolbar />
-  </nav>
+  </div>
 </header>
+
+<script>
+  // Keep the selected page visible in the horizontally scrolling mobile tabs.
+  const navigation = document.querySelector<HTMLElement>('nav[aria-label="Main navigation"]');
+  if (navigation && navigation.scrollWidth > navigation.clientWidth) {
+    navigation.querySelector('[aria-current="page"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+</script>

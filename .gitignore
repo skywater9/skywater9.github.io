@@ -4,3 +4,4 @@ node_modules/
 # Astro-generated files
 .astro/
 dist/
+.DS_Store

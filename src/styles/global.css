@@ -2,6 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
+  --font-sans: "Segoe UI", system-ui, sans-serif;
   --font-ui: "Segoe UI", system-ui, sans-serif;
   --font-mono: "Segoe UI", system-ui, sans-serif;
 
@@ -35,19 +36,211 @@ body {
   color: var(--ink);
 }
 
-/* the "viewport" grid texture used behind main content areas */
+.page-shell {
+  --sidebar-width: 0px;
+  --sidebar-edge: 0px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.page-shell[data-sidebar-open="true"] {
+  --sidebar-edge: min(78vw, 280px);
+}
+
+.sidebar-edge-control {
+  position: absolute;
+  z-index: 50;
+  top: 50%;
+  left: var(--sidebar-edge);
+  width: 18px;
+  height: 50px;
+  overflow: hidden;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: left 180ms ease;
+}
+
+.sidebar-edge-toggle {
+  display: flex;
+  width: 18px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #969b94;
+  border-radius: 0;
+  background: #dde0dc;
+  color: #555;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: transform 150ms ease, opacity 150ms ease, background-color 150ms ease;
+}
+
+.sidebar-edge-toggle:hover {
+  background: #cdd0ca;
+}
+
+.sidebar-edge-toggle:focus-visible {
+  outline: 2px solid #4d7694;
+  outline-offset: -2px;
+}
+
+/* The clipping wrapper makes the tab emerge from beneath the outer edge. */
+@media (hover: hover) and (pointer: fine) {
+  .sidebar-edge-toggle {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .page-shell[data-sidebar-reveal="true"] .sidebar-edge-toggle,
+  .sidebar-edge-toggle:focus-visible {
+    transform: translateX(-1px);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.sidebar-edge-toggle svg {
+  transform: rotate(180deg);
+}
+
+.page-shell[data-sidebar-open="true"] .sidebar-edge-toggle svg {
+  transform: none;
+}
+
+@media (min-width: 768px) {
+  .page-shell {
+    --sidebar-width: 230px;
+    --sidebar-edge: var(--sidebar-width);
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    transition: grid-template-columns 180ms ease;
+  }
+
+  .page-shell[data-sidebar-open="true"] {
+    --sidebar-edge: var(--sidebar-width);
+  }
+
+  .page-shell[data-sidebar-open="false"] {
+    --sidebar-width: 0px;
+  }
+
+  .page-shell #sidebar {
+    transform: translateX(0);
+    transition: transform 180ms ease;
+  }
+
+  .page-shell[data-sidebar-open="false"] #sidebar {
+    transform: translateX(-100%);
+  }
+
+  html[data-sidebar-expanded="false"]:not([data-sidebar-initialized="true"]) .page-shell {
+    --sidebar-width: 0px;
+    --sidebar-edge: 0px;
+    grid-template-columns: minmax(0, 1fr);
+    transition: none;
+  }
+
+  html[data-sidebar-expanded="false"]:not([data-sidebar-initialized="true"]) .page-shell #sidebar,
+  html[data-sidebar-expanded="false"]:not([data-sidebar-initialized="true"]) .page-shell .sidebar-edge-control {
+    transition: none;
+  }
+
+  html[data-sidebar-expanded="false"]:not([data-sidebar-initialized="true"]) .page-shell #sidebar {
+    transform: translateX(-100%);
+  }
+
+  .sidebar-edge-toggle svg {
+    transform: none;
+  }
+
+  .page-shell[data-sidebar-open="false"] .sidebar-edge-toggle svg {
+    transform: rotate(180deg);
+  }
+}
+
+/* The content pane scrolls independently of the sidebar and header. */
 .viewport-grid {
   position: relative;
   scrollbar-color: #a6a6a6 #dedede;
   scrollbar-width: auto;
 }
-.viewport-grid > :not(.viewport-overlay) {
+
+.viewport-grid> :not(.viewport-overlay) {
   position: relative;
   z-index: 1;
 }
 
-.axis-icon {
-  filter: drop-shadow(0 0 4px rgb(255 255 255)) drop-shadow(0 0 10px rgb(255 255 255 / 90%)) drop-shadow(0 0 16px rgb(255 255 255 / 60%));
+.outline-list {
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+}
+
+.navigation-link,
+.outline-link {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Tint icon backgrounds as part of the selection, while keeping text crisp. */
+.navigation-link[aria-current="page"]::after,
+.outline-link[aria-current="location"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(42 128 197 / 38%);
+  pointer-events: none;
+}
+
+.navigation-link>span,
+.outline-link>span {
+  position: relative;
+  z-index: 2;
+}
+
+.outline-main-heading>span {
+  transform: translateY(2px);
+}
+
+.outline-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 1px 0;
+  border: 1px solid transparent;
+  padding: 2px 6px 2px 0;
+  color: black;
+  font-size: 12.5px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.outline-link img {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.outline-link img.outline-feature-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.outline-link:hover {
+  border-color: #a5a9a4;
+  background: #fafafa;
+}
+
+.outline-link[aria-current="location"] {
+  border-color: #4d7694;
+  background: transparent;
+  font-weight: 600;
+}
+
+.outline-link:focus-visible {
+  outline: 2px solid #4d7694;
+  outline-offset: 1px;
 }
 
 .viewport-grid::-webkit-scrollbar {
