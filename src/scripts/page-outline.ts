@@ -53,6 +53,7 @@ export function initPageOutline() {
     const link = document.createElement('a');
     link.href = `#${encodeURIComponent(heading.id)}`;
     link.className = 'outline-link';
+    if (depth === 0) link.classList.add('outline-main-heading');
     const icon = document.createElement('img');
     icon.src = `/images/ui/${depth === 0 ? 'asm' : depth === 1 ? 'part' : 'feature'}-icon.png`;
     if (depth >= 2) icon.className = 'outline-feature-icon';
@@ -73,7 +74,8 @@ export function initPageOutline() {
 
   const desktop = window.matchMedia('(min-width: 768px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let desktopExpanded = true;
+  const sidebarPreferenceKey = 'page-outline-desktop-expanded';
+  let desktopExpanded = localStorage.getItem(sidebarPreferenceKey) !== 'false';
   let drawerOpen = false;
   let drawerTrigger: HTMLButtonElement = toggle;
   let activeIndex = -1;
@@ -106,6 +108,8 @@ export function initPageOutline() {
 
   function updateSidebar() {
     const open = desktop.matches ? desktopExpanded : drawerOpen;
+    document.documentElement.dataset.sidebarExpanded = String(desktopExpanded);
+    document.documentElement.dataset.sidebarInitialized = 'true';
     const wasOpen = shell!.dataset.sidebarOpen === 'true';
     if (open || wasOpen) {
       window.clearTimeout(revealTimer);
@@ -152,6 +156,7 @@ export function initPageOutline() {
   edgeToggle.addEventListener('click', () => {
     if (desktop.matches) {
       desktopExpanded = !desktopExpanded;
+      localStorage.setItem(sidebarPreferenceKey, String(desktopExpanded));
       updateSidebar();
     } else {
       drawerTrigger = edgeToggle;

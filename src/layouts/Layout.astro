@@ -21,6 +21,11 @@ const { title, description = 'Engineering project portfolio.', statusPath = 'Hom
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      if (localStorage.getItem('page-outline-desktop-expanded') === 'false') {
+        document.documentElement.dataset.sidebarExpanded = 'false';
+      }
+    </script>
 
   </head>
   <body class="flex h-screen flex-col overflow-hidden">
