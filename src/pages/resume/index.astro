@@ -1,9 +1,73 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+const resumeUrl = '/DemirGoksuResume.pdf';
 ---
 
 <Layout title="Resume — Demir Göksu" statusPath="Resume">
-  <div class="mx-auto max-w-[760px] p-6 md:p-8">
-    <h1 class="text-2xl font-bold md:text-[26px]">Resume</h1>
-  </div>
+  <section class="flex flex-col gap-4 p-4 md:p-6">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h1 class="text-2xl font-bold md:text-[26px]">Resume</h1>
+      <a
+        href={resumeUrl}
+        download="DemirGoksuResume.pdf"
+        class="border border-border bg-shell px-3 py-1.5 text-[13px] text-ink hover:border-[#a5a9a4] hover:bg-[#fafafa]"
+      >
+        Download Resume
+      </a>
+    </div>
+    <div id="resume-viewer" data-pdf-url={resumeUrl} aria-label="Demir Göksu's resume" class="flex w-full flex-col items-center gap-4">
+      <p id="resume-loading" role="status" class="text-sm text-ink-dim">Loading resume…</p>
+      <p id="resume-error" role="alert" class="hidden p-4 text-sm">
+        Unable to display the resume here. <a href={resumeUrl} class="underline">Open the PDF</a> or use the download button.
+      </p>
+    </div>
+  </section>
 </Layout>
+
+<script>
+  import * as pdfjsLib from 'pdfjs-dist';
+  import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+
+  const viewer = document.querySelector<HTMLElement>('#resume-viewer');
+  const loading = document.querySelector<HTMLElement>('#resume-loading');
+  const error = document.querySelector<HTMLElement>('#resume-error');
+  const url = viewer?.dataset.pdfUrl;
+
+  if (viewer && url) {
+    pdfjsLib.getDocument({ url }).promise.then(async (pdf) => {
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale = Math.min(viewer.clientWidth, 896) / baseViewport.width;
+        const viewport = page.getViewport({ scale });
+        const wrapper = document.createElement('div');
+        const canvas = document.createElement('canvas');
+        const pixelRatio = window.devicePixelRatio || 1;
+
+        wrapper.className = 'w-full max-w-4xl border border-border bg-white';
+        canvas.setAttribute('aria-label', `Resume page ${pageNumber}`);
+        canvas.style.display = 'block';
+        canvas.style.width = '100%';
+        canvas.style.height = 'auto';
+        canvas.width = Math.floor(viewport.width * pixelRatio);
+        canvas.height = Math.floor(viewport.height * pixelRatio);
+        wrapper.append(canvas);
+        viewer.append(wrapper);
+
+        const context = canvas.getContext('2d');
+        if (context) {
+          context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+          await page.render({ canvasContext: context, viewport }).promise;
+        }
+      }
+
+      loading?.remove();
+    }).catch(() => {
+      loading?.remove();
+      error?.classList.remove('hidden');
+    });
+  }
+</script>

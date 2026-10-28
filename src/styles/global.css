@@ -147,14 +147,10 @@ body {
   scrollbar-color: #a6a6a6 #dedede;
   scrollbar-width: auto;
 }
-.viewport-grid > :not(.viewport-overlay) {
+
+.viewport-grid> :not(.viewport-overlay) {
   position: relative;
   z-index: 1;
-}
-
-.axis-icon {
-  filter: drop-shadow(0 0 4px rgb(255 255 255)) drop-shadow(0 0 10px rgb(255 255 255 / 90%)) drop-shadow(0 0 16px rgb(255 255 255 / 60%));
-  transition: left 180ms ease;
 }
 
 .outline-list {
@@ -180,8 +176,8 @@ body {
   pointer-events: none;
 }
 
-.navigation-link > span,
-.outline-link > span {
+.navigation-link>span,
+.outline-link>span {
   position: relative;
   z-index: 2;
 }

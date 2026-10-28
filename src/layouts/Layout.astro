@@ -7,9 +7,10 @@ interface Props {
   title: string;
   description?: string;
   statusPath?: string;
+  fillHeight?: boolean;
 }
 
-const { title, description = 'Engineering project portfolio.', statusPath = 'Home' } = Astro.props;
+const { title, description = 'Engineering project portfolio.', statusPath = 'Home', fillHeight = false } = Astro.props;
 ---
 
 <html lang="en">
@@ -41,15 +42,8 @@ const { title, description = 'Engineering project portfolio.', statusPath = 'Hom
         </button>
       </div>
       <main id="page-viewport" aria-label={statusPath} class="viewport-grid row-start-1 min-w-0 overflow-y-auto md:col-start-2 md:row-start-1">
-        <div id="page-content"><slot /></div>
+        <div id="page-content" class={fillHeight ? 'h-full' : undefined}><slot /></div>
       </main>
-      <img
-        src="/images/ui/axis-icon.png"
-        alt=""
-        aria-hidden="true"
-        class="axis-icon viewport-overlay pointer-events-none absolute bottom-3 z-10 h-[84px] w-[84px] select-none object-contain"
-        style="left: calc(var(--sidebar-width) + 12px)"
-      />
     </div>
   </body>
 </html>
