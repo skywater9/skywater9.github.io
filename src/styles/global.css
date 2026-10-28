@@ -2,6 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
+  --font-sans: "Segoe UI", system-ui, sans-serif;
   --font-ui: "Segoe UI", system-ui, sans-serif;
   --font-mono: "Segoe UI", system-ui, sans-serif;
 
@@ -162,10 +163,33 @@ body {
   list-style: none;
 }
 
+.navigation-link,
+.outline-link {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Tint icon backgrounds as part of the selection, while keeping text crisp. */
+.navigation-link[aria-current="page"]::after,
+.outline-link[aria-current="location"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgb(42 128 197 / 38%);
+  pointer-events: none;
+}
+
+.navigation-link > span,
+.outline-link > span {
+  position: relative;
+  z-index: 2;
+}
+
 .outline-link {
   display: flex;
   align-items: flex-start;
-  gap: 2px;
+  gap: 4px;
   margin: 1px 0;
   border: 1px solid transparent;
   padding: 2px 6px 2px 0;
@@ -182,6 +206,11 @@ body {
   object-fit: contain;
 }
 
+.outline-link img.outline-feature-icon {
+  width: 20px;
+  height: 20px;
+}
+
 .outline-link:hover {
   border-color: #a5a9a4;
   background: #fafafa;
@@ -189,7 +218,7 @@ body {
 
 .outline-link[aria-current="location"] {
   border-color: #4d7694;
-  background: #a7c8e2;
+  background: transparent;
   font-weight: 600;
 }
 

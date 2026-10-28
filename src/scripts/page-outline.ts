@@ -54,7 +54,8 @@ export function initPageOutline() {
     link.href = `#${encodeURIComponent(heading.id)}`;
     link.className = 'outline-link';
     const icon = document.createElement('img');
-    icon.src = `/images/ui/${depth === 0 ? 'folder' : depth === 1 ? 'asm' : 'part'}-icon.png`;
+    icon.src = `/images/ui/${depth === 0 ? 'asm' : depth === 1 ? 'part' : 'feature'}-icon.png`;
+    if (depth >= 2) icon.className = 'outline-feature-icon';
     icon.alt = '';
     icon.setAttribute('aria-hidden', 'true');
     const label = document.createElement('span');
