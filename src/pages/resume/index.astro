@@ -2,17 +2,27 @@
 import Layout from '../../layouts/Layout.astro';
 
 const resumeUrl = '/DemirGoksuResume.pdf';
+const resumeOutline = [
+  { id: 'resume-education', title: 'Education', page: 1, pdfHeading: 'EDUCATION' },
+  { id: 'resume-research', title: 'Engineering Research & Independent Projects', page: 1, pdfHeading: 'ENGINEERING RESEARCH & INDEPENDENT PROJECTS' },
+  { id: 'resume-honors', title: 'Individual Honors & Distinctions', page: 1, pdfHeading: 'INDIVIDUAL HONORS & DISTINCTIONS' },
+  { id: 'resume-robotics', title: 'Competitive Robotics & Engineering Leadership', page: 1, pdfHeading: 'COMPETITIVE ROBOTICS & ENGINEERING LEADERSHIP' },
+  { id: 'resume-team-awards', title: 'Team Awards & Competition Achievements', page: 2, pdfHeading: 'TEAM AWARDS & COMPETITION ACHIEVEMENTS' },
+  { id: 'resume-leadership', title: 'Leadership, Mentorship & Community Impact', page: 2, pdfHeading: 'LEADERSHIP, MENTORSHIP & COMMUNITY IMPACT' },
+  { id: 'resume-skills', title: 'Skills, Languages & Interests', page: 3, pdfHeading: 'SKILLS, LANGUAGES & INTERESTS' },
+] as const;
 ---
 
 <Layout title="Resume — Demir Göksu" statusPath="Resume">
   <section class="flex flex-col gap-4 p-4 md:p-6">
-    <div class="flex flex-wrap items-center justify-between gap-3">
+    <div class="mx-auto flex w-full max-w-[760px] flex-wrap items-center justify-between gap-3">
       <h1 class="text-2xl font-bold md:text-[26px]">Resume</h1>
       <a
         href={resumeUrl}
         download="DemirGoksuResume.pdf"
-        class="border border-border bg-shell px-3 py-1.5 text-[13px] text-ink hover:border-[#a5a9a4] hover:bg-[#fafafa]"
+        class="inline-flex items-center gap-2 border border-[#a5a9a4] bg-shell px-5 py-3 text-sm font-semibold text-ink hover:border-[#878787] hover:bg-[#fafafa]"
       >
+        <img src="/images/ui/download-icon.png" alt="" aria-hidden="true" class="h-7 w-7 object-contain" />
         Download Resume
       </a>
     </div>
@@ -21,6 +31,21 @@ const resumeUrl = '/DemirGoksuResume.pdf';
       <p id="resume-error" role="alert" class="hidden p-4 text-sm">
         Unable to display the resume here. <a href={resumeUrl} class="underline">Open the PDF</a> or use the download button.
       </p>
+      {resumeOutline.map((section) => (
+        <div class="sr-only">
+          <h2 id={section.id} data-pdf-page={section.page} data-pdf-heading={section.pdfHeading} class="sr-only">{section.title}</h2>
+        </div>
+      ))}
+    </div>
+    <div class="mx-auto flex w-full max-w-[760px] justify-end">
+      <a
+        href={resumeUrl}
+        download="DemirGoksuResume.pdf"
+        class="inline-flex items-center gap-2 border border-[#a5a9a4] bg-shell px-5 py-3 text-sm font-semibold text-ink hover:border-[#878787] hover:bg-[#fafafa]"
+      >
+        <img src="/images/ui/download-icon.png" alt="" aria-hidden="true" class="h-7 w-7 object-contain" />
+        Download Resume
+      </a>
     </div>
   </section>
 </Layout>
@@ -35,6 +60,7 @@ const resumeUrl = '/DemirGoksuResume.pdf';
   const loading = document.querySelector<HTMLElement>('#resume-loading');
   const error = document.querySelector<HTMLElement>('#resume-error');
   const url = viewer?.dataset.pdfUrl;
+  const sectionHeadings = Array.from(viewer?.querySelectorAll<HTMLElement>('[data-pdf-page]') ?? []);
 
   if (viewer && url) {
     pdfjsLib.getDocument({ url }).promise.then(async (pdf) => {
@@ -47,7 +73,7 @@ const resumeUrl = '/DemirGoksuResume.pdf';
         const canvas = document.createElement('canvas');
         const pixelRatio = window.devicePixelRatio || 1;
 
-        wrapper.className = 'w-full max-w-4xl border border-border bg-white';
+        wrapper.className = 'relative w-full max-w-4xl border border-border bg-white';
         canvas.setAttribute('aria-label', `Resume page ${pageNumber}`);
         canvas.style.display = 'block';
         canvas.style.width = '100%';
@@ -56,6 +82,18 @@ const resumeUrl = '/DemirGoksuResume.pdf';
         canvas.height = Math.floor(viewport.height * pixelRatio);
         wrapper.append(canvas);
         viewer.append(wrapper);
+
+        const pageText = await page.getTextContent();
+        sectionHeadings
+          .filter((heading) => Number(heading.dataset.pdfPage) === pageNumber)
+          .forEach((heading) => {
+            const text = pageText.items.find((item) => 'str' in item && item.str.trim() === heading.dataset.pdfHeading);
+            if (!text || !('transform' in text)) return;
+
+            const [, y] = viewport.convertToViewportPoint(text.transform[4], text.transform[5]);
+            heading.style.top = `${Math.max(0, y - 14)}px`;
+            wrapper.append(heading);
+          });
 
         const context = canvas.getContext('2d');
         if (context) {
