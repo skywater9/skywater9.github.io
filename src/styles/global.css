@@ -37,8 +37,8 @@ body {
 }
 
 .banner-image-fade {
-  -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 var(--banner-fade-start, 60%), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 var(--banner-fade-start, 60%), transparent 100%);
 }
 
 .page-shell {

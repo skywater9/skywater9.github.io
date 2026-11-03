@@ -1,51 +1,118 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getEngineeringProjects } from '../data/engineering-projects';
+
+const projectImages = new Map(getEngineeringProjects().map(project => [project.slug, project.coverImage]));
+const highlights = [
+  { slug: 'frc-robotics', title: 'FRC Robot Design', description: 'Designing and integrating competition robots and mechanisms, from intake and scoring systems to complete robot CAD, prototyping, and field repairs.' },
+  { slug: 'topology-optimizer', title: 'Anisotropy-Aware Topology Optimizer', description: 'Adapting topology optimization to account for the direction-dependent behavior of FDM-printed plastic, supported by material testing and physical validation.' },
+  { slug: 'tensile-testing-rig', title: 'Custom Tensile Testing System', description: 'A custom aluminum testing rig with camera-based displacement tracking, developed to measure material behavior for 3D-printing research.' },
+  { slug: 'robot-arm', title: 'Motorized 6-DOF Robotic Arm', description: 'Three iterations of a 3D-printed robotic arm using six stepper motors, geared transmissions, Arduino control, and a custom PCB.' },
+  { slug: 'high-power-rocketry', title: 'High-Power Rocket', description: 'Leading the development of a fiberglass high-power rocket while exploring aerodynamic design, structures, and launch preparation.' },
+];
+const skillGroups = [
+  { title: 'Mechanical Design', skills: [
+    { name: 'Onshape', logo: 'onshape' }, { name: 'Fusion 360', logo: 'fusion-360' },
+    { name: 'SolidWorks', logo: 'solidworks' }, { name: '3D Printing' }, { name: 'Rapid Prototyping' },
+  ] },
+  { title: 'Analysis & Testing', skills: [
+    { name: 'ANSYS Mechanical', logo: 'ansys' }, { name: 'OpenRocket', logo: 'openrocket' },
+    { name: 'Materials Testing' }, { name: 'Experimental Measurement' },
+  ] },
+  { title: 'Programming & Electronics', skills: [
+    { name: 'Python', logo: 'python' }, { name: 'Java', logo: 'java' },
+    { name: 'Arduino', logo: 'arduino' }, { name: 'KiCad', logo: 'kicad' },
+  ] },
+];
 ---
 
 <Layout title="Demir Göksu — Engineering Portfolio" statusPath="Home">
-  <article class="mx-auto max-w-[760px] space-y-8 p-6 pb-[30vh] text-[13.5px] leading-relaxed md:p-8 md:pb-[30vh]">
-    <header class="min-h-[30vh]">
-      <h1 class="text-2xl font-bold md:text-[26px]">Home</h1>
-      <p class="mt-3 max-w-[600px] text-ink-dim">Placeholder content to demonstrate the page outline. Scroll through the sections or select a heading in the sidebar.</p>
-    </header>
-
-    <section class="border-t border-border pt-6">
-      <h2 class="text-xl font-semibold">Engineering Projects</h2>
-      <p class="mt-3 text-ink-dim">An introduction to engineering work can go here. Replace this text with your own overview.</p>
-
-      <section class="min-h-[40vh] pt-10">
-        <h3 class="text-base font-semibold">Design and Prototyping</h3>
-        <p class="mt-3 text-ink-dim">Placeholder for sketches, CAD models, prototypes, and the decisions behind a design.</p>
-      </section>
-      <section class="min-h-[40vh] pt-6">
-        <h3 class="text-base font-semibold">Testing and Iteration</h3>
-        <p class="mt-3 text-ink-dim">Placeholder for testing methods, observations, and improvements made along the way.</p>
-      </section>
+  <div class="relative h-[calc(min(32vw,300px)+50px)] min-h-[194px] overflow-hidden">
+    <div class="banner-image-fade absolute inset-0" style="--banner-fade-start: 80%">
+      <img
+        src="/images/home/banner-image.png"
+        alt="Home banner"
+        class="block h-full w-full object-cover object-center"
+      />
+      <div aria-hidden="true" class="absolute inset-0 bg-black/[33%]"></div>
+    </div>
+    <div class="absolute inset-y-0 left-0 flex w-full flex-col items-start justify-center pl-10 pr-4 md:pl-16">
+      <h1 class="text-left text-[clamp(2rem,6vw,5rem)] leading-none font-bold tracking-wide text-white drop-shadow-md">
+        <span class="block">DEMIR </span>
+        <span class="block">GOKSU</span>
+      </h1>
+      <p class="mt-3 max-w-full text-sm font-normal leading-relaxed text-white drop-shadow-md md:text-base">Mechanical Design · Robotics · Engineering Research</p>
+    </div>
+  </div>
+  <article class="mx-auto max-w-[900px] space-y-10 px-6 pt-6 pb-20 text-sm leading-relaxed md:px-8 md:pt-8">
+    <section aria-labelledby="about-me">
+      <h2 id="about-me" class="text-xl font-bold">About me</h2>
+      <p class="mt-4 max-w-[720px] text-ink-dim">Hi, I'm Demir, a high-school senior at Harvard-Westlake School interested in mechanical engineering, robotics, and aerospace. I design, build, and test systems where materials, mechanisms, and control meet.</p>
+      <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
+        <a class="font-semibold underline decoration-border underline-offset-4 hover:text-accent" href="https://www.linkedin.com/in/demir-g-02655b381/">LinkedIn</a>
+        <a class="font-semibold underline decoration-border underline-offset-4 hover:text-accent" href="mailto:demirgks09@gmail.com">Email</a>
+        <a class="font-semibold underline decoration-border underline-offset-4 hover:text-accent" href="https://github.com/skywater9">GitHub</a>
+      </div>
     </section>
 
-    <section class="border-t border-border pt-6">
-      <h2 class="text-xl font-semibold">Additional Projects</h2>
-      <p class="mt-3 text-ink-dim">Use this space to introduce projects beyond engineering.</p>
-
-      <section class="min-h-[40vh] pt-10">
-        <h3 class="text-base font-semibold">Creative Work</h3>
-        <p class="mt-3 text-ink-dim">Placeholder for writing, photography, or other creative projects.</p>
-      </section>
+    <section aria-labelledby="technical-skills">
+      <h2 id="technical-skills" class="text-xl font-bold">Technical Skills</h2>
+      <div class="mt-5 space-y-5">
+        {skillGroups.map(group => (
+          <div>
+            <h3 class="text-sm font-bold">{group.title}:</h3>
+            <ul class="mt-2 flex flex-wrap gap-x-5 gap-y-3 text-ink-dim">
+              {group.skills.map(skill => (
+                <li class="inline-flex items-center gap-2">
+                  {'logo' in skill && <img src={`/images/software/${skill.logo}.ico`} alt="" width="20" height="20" class="h-5 w-5 object-contain" loading="lazy" />}
+                  <span>{skill.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </section>
 
-    <section class="border-t border-border pt-6">
-      <h2 class="text-xl font-semibold">Background and Interests</h2>
-      <p class="mt-3 text-ink-dim">A short introduction to your background and interests can go here.</p>
-
-      <section class="min-h-[40vh] pt-10">
-        <h3 class="text-base font-semibold">What I'm Exploring</h3>
-        <p class="mt-3 text-ink-dim">Placeholder for topics you are learning about or ideas you would like to explore.</p>
-      </section>
+    <section aria-labelledby="highlight-projects" class="border-t border-border pt-8">
+      <h2 id="highlight-projects" class="text-2xl font-bold">Highlight Projects</h2>
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+        {highlights.map(project => (
+          <section class="mx-auto flex w-[90%] min-w-0 flex-col border border-[#a5a9a4] bg-[#dedede] py-5">
+            <h3 class="mx-auto w-5/6 text-base font-semibold">
+              {project.title}
+            </h3>
+            <div class="mx-auto mt-3 aspect-square w-5/6 overflow-hidden border border-border bg-white">
+              <img src={projectImages.get(project.slug)} alt={project.title} class="h-full w-full object-cover" loading="lazy" />
+            </div>
+            <p class="mx-auto mt-4 w-5/6 text-ink-dim">{project.description}</p>
+          </section>
+        ))}
+      </div>
     </section>
 
-    <section class="min-h-[40vh] border-t border-border pt-6">
-      <h2 class="text-xl font-semibold">Next Steps</h2>
-      <p class="mt-3 text-ink-dim">Placeholder for future plans. These demo sections can be renamed, reordered, or removed as you add real content.</p>
+    <section aria-labelledby="beyond-the-workbench" class="border-t border-border pt-8">
+      <h2 id="beyond-the-workbench" class="text-2xl font-bold">Beyond the Workbench</h2>
+      <p class="mt-4 text-base">Engineering matters more when its knowledge is shared.</p>
+      <div class="relative mt-12 grid grid-cols-1 gap-x-[41px] gap-y-4 sm:grid-cols-2 sm:before:absolute sm:before:inset-y-0 sm:before:left-[calc(50%-1.5px)] sm:before:w-px sm:before:bg-border sm:before:content-['']">
+        <div class="grid gap-4 sm:row-span-3 sm:grid-rows-subgrid">
+          <h3 class="text-sm font-semibold">FRC Mentorship</h3>
+          <p class="text-ink-dim">I've developed and taught a Turkish-language Onshape and engineering design curriculum while mentoring an FRC team in Hatay, Türkiye.</p>
+          <div>
+            <img src="/images/media/stem-outreach/frc-hatay-zoom-photo.png" alt="Online engineering mentorship session with the FRC team in Hatay" class="h-auto w-3/4 border border-border" loading="lazy" />
+            <a href="https://www.youtube.com/watch?v=SEZXGawfO8Q&amp;list=PLROklxPyATJk" class="mt-3 inline-block text-sm underline decoration-border underline-offset-4 hover:text-accent">Watch the team mentorship meetings on YouTube</a>
+          </div>
+        </div>
+        <div class="grid gap-4 sm:row-span-3 sm:grid-rows-subgrid">
+          <h3 class="text-sm font-semibold">Rocketry Workshop</h3>
+          <p class="text-ink-dim">Through my school's rocketry club, I've also helped organize hands-on workshops for younger students in Los Angeles.</p>
+          <div>
+            <img src="/images/media/stem-outreach/rocketry-outreach-photo.png" alt="Hands-on rocketry outreach workshop for younger students in Los Angeles" class="h-auto w-3/4 border border-border" loading="lazy" />
+            <a href="https://docs.google.com/presentation/d/1Zlue1AvnpGuBvefQy81WmPzMDTeN1gWvna607p-3abs/edit?usp=sharing" class="mt-3 inline-block text-sm underline decoration-border underline-offset-4 hover:text-accent">View workshop slides: rocketry lesson, kit resources, and instructions</a>
+          </div>
+        </div>
+      </div>
+      <p class="mt-8 text-ink-dim">Outside engineering, I also enjoy drawing and cooking.</p>
     </section>
   </article>
 </Layout>
