@@ -3,6 +3,8 @@ import Toolbar from './Toolbar.astro';
 import { NAVIGATION } from '../data/navigation';
 
 const path = `${Astro.url.pathname.replace(/\/+$/, '')}/`;
+// Temporarily show only Home and Resume in the top navigation.
+const visibleNavigation = NAVIGATION.filter(({ href }) => href === '/' || href === '/resume/');
 ---
 
 <header class="sticky top-0 z-20 shrink-0">
@@ -15,7 +17,7 @@ const path = `${Astro.url.pathname.replace(/\/+$/, '')}/`;
       <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
       <a href="https://github.com/skywater9" class="hover:underline">GitHub</a>
       <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
-      <a href="https://linkedin.com/in/yourprofile" class="hover:underline">LinkedIn</a>
+      <a href="https://www.linkedin.com/in/demir-g-02655b381/" class="hover:underline">LinkedIn</a>
       <span aria-hidden="true" class="h-3 w-px bg-divider/60"></span>
       <span class="flex items-center gap-1 whitespace-nowrap">
         <img src="/images/ui/traffic-icon.png" alt="" aria-hidden="true" class="h-[15px] w-auto object-contain" />
@@ -27,7 +29,7 @@ const path = `${Astro.url.pathname.replace(/\/+$/, '')}/`;
   <div class="flex items-center border-b border-divider bg-shell text-[15px]">
     <button id="tree-toggle" type="button" title="Show page contents" aria-label="Show page contents" aria-controls="sidebar" aria-expanded="false" class="flex h-[38px] w-[38px] shrink-0 items-center justify-center border border-transparent text-black hover:border-[#a5a9a4] hover:bg-[#fafafa] aria-expanded:border-[#4d7694] aria-expanded:bg-[#a7c8e2] disabled:opacity-40 md:hidden">☰</button>
     <nav aria-label="Main navigation" class="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto">
-      {NAVIGATION.map(({ label, href, icon }) => (
+      {visibleNavigation.map(({ label, href, icon }) => (
         <a
           href={href}
           aria-current={path === href ? 'page' : undefined}
